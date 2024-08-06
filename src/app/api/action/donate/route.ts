@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ActionGetResponse, ActionPostResponse } from '@solana/actions'
+import { ActionGetResponse, ActionPostResponse, ACTIONS_CORS_HEADERS } from '@solana/actions'
 
 export async function GET(request: Request) {
 
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
         label: 'Button text'
     }
 
-    return NextResponse.json(actionGetResponse, { status: 200 });
+    return NextResponse.json(actionGetResponse, { status: 200, headers: ACTIONS_CORS_HEADERS });
 }
 
 export async function POST(request: Request) {
@@ -20,5 +20,5 @@ export async function POST(request: Request) {
         message: ''
     }
 
-    return NextResponse.json(actionPostResponse, { status: 200 });
+    return NextResponse.json(actionPostResponse, { status: 200, headers: ACTIONS_CORS_HEADERS });
 }
