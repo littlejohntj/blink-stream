@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/core": "^0.34.2",
     "@badgateway/oauth2-client": "^2.4.0",
+    "@solana/actions": "^1.6.1",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "react": "^18",
