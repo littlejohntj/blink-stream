@@ -12,9 +12,21 @@ export async function POST(request: Request) {
     const lastInstructionProgramId = lastInstruction.programId
     const lastInstructionData = lastInstruction.data
 
+    console.log(transaction)
+
     const transferInstruction = instructions[instructions.length - 2]
 
     const streamerPubkey = transferInstruction.accounts[0]
+    const senderPubkey = transferInstruction.accounts[1]
+
+    function truncateString(str: string): string {
+        if (str.length <= 6) {
+            return str;
+        }
+        return str.slice(0, 3) + '...' + str.slice(-3);
+    }
+
+    const truncatedSenderPubkey = truncateString(senderPubkey);
 
     const streamer = await prisma.streamer.findFirst({
         where: {
@@ -30,8 +42,8 @@ export async function POST(request: Request) {
         "image_href": "",
         "sound_href": "",
         "message": decodedString,
-        "user_message": "Thanks for the donation :)",
-        "duration": "4000",
+        "user_message": `${truncatedSenderPubkey} donated 0.001 SOL`,
+        "duration": "8000",
         "special_text_color": "Blue"      
     }, {
         headers: {
