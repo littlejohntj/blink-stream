@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { streamlabsOAuth, redirectUri } from '@/utils/streamlabsOAuth';
+import prisma from '@/utils/prisma';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
-  const state = url.searchParams.get('state');
+  const state = url.searchParams.get('state')!;
   
 
   if (!code) {
@@ -19,6 +20,16 @@ export async function GET(request: Request) {
     });
 
     // At this point, we would want to make an update to the database
+
+    console.log(accessToken.length)
+
+    console.log(state)
+    await prisma.streamer.create({
+      data: {
+        pubkey: state,
+        accessToken: accessToken
+      }
+    })
     
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     return NextResponse.redirect(`${baseUrl}/`);
