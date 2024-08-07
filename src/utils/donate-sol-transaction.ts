@@ -2,7 +2,7 @@ import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { transferSol, addMemo, AddMemoInstructionData } from '@metaplex-foundation/mpl-toolbox'
 import { PublicKey, publicKey, Signer, signerIdentity, sol, Transaction, transactionBuilder } from '@metaplex-foundation/umi'
 
-export const donateSolTransaction = async (source: Signer, message: string, toPubkey: PublicKey, amount: number): Promise<Transaction> => {
+export const donateSolTransaction = async (source: Signer, message: string, toPubkey: PublicKey, amount: number, name: string): Promise<Transaction> => {
 
     const umi = createUmi(process.env.RPC_URL!)
 
@@ -21,8 +21,16 @@ export const donateSolTransaction = async (source: Signer, message: string, toPu
         }
     )
 
+    const tipDescription = {
+        name: name,
+        message: message,
+        amount: amount,
+    }
+
+    const tipDescriptionJsonString = JSON.stringify(tipDescription)
+
     const memoBuilder = addMemo(umi, {
-            memo: message
+            memo: tipDescriptionJsonString
         }
     )
 

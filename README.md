@@ -32,3 +32,7 @@
 - Transaction Type: Any
 - Webhook Url: <url from ngrok>/api/helius
 - Account Address: Pubkey from your .local.env file
+
+### More dono paramters
+- Parse it cleaner on the helius webhook
+- Make a usdc dono transaction, have it create the token account if non exists yet ( sad! )
