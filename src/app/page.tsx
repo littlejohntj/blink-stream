@@ -2,22 +2,29 @@
 
 import StreamlabsAuthButton from '@/components/StreamlabsAuthButton';
 import { useState, useEffect } from 'react';
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import Address from './address/page';
 
 export default function Home() {
-  const [message, setMessage] = useState('');
+  const { publicKey } = useWallet();
+  const { connection } = useConnection();
 
   useEffect(() => {
-    fetch('/api/hello')
-      .then(response => response.json())
-      .then(data => setMessage(data.message));
-  }, []);
+    if (publicKey) {
+      console.log(publicKey)
+    }
+  }, [publicKey, connection]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Welcome to My Next.js App</h1>
-      <p>Message from API: {message}</p>
-      <h1>Welcome to My Streamlabs App</h1>
-      <StreamlabsAuthButton />
+    // <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    //   <StreamlabsAuthButton />
+    // </main>
+    <main className="flex items-center justify-center min-h-screen">
+      <div className="border hover:border-slate-900 rounded">
+        {/* <WalletMultiButton style={{}} /> */}
+        <Address />
+      </div>
     </main>
   );
 }
