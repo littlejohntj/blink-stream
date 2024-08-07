@@ -61,9 +61,9 @@ export async function GET(request: Request) {
                     href: `${baseHref}&message={message}`, // this href will have a text input
                     parameters: [
                         {
-                        name: "message", // parameter name in the `href` above
-                        label: "What do you want your message to say?", // placeholder of the text input
-                        required: true,
+                            name: "message", // parameter name in the `href` above
+                            label: "What do you want your message to say?", // placeholder of the text input
+                            required: true,
                         }
                     ],
                 },
