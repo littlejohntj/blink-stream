@@ -1,4 +1,5 @@
 import AppWalletProvider from "../components/AppWalletProvider";
+import '../styles/globals.css';
  
 export default function RootLayout({
   children,
