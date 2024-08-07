@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, createPostResponse } from '@solana/actions'
+import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, createPostResponse, ActionError } from '@solana/actions'
 import { createNoopSigner, publicKey, PublicKey } from '@metaplex-foundation/umi';
 import { donateSolTransaction } from '@/utils/donate-sol-transaction';
 import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
-import prisma from '../../../../utils/prisma'
+import { streamerExists } from '@/utils/streamer-exists';
 
 export async function GET(request: Request) {
 
@@ -16,36 +16,60 @@ export async function GET(request: Request) {
         requestUrl.origin,
       ).toString();
 
-      try {
-        prisma.streamer.findFirstOrThrow({
-            where: {
-                pubkey: publicKey.toString()
-            }
-        })
-    } catch {
-        // Return error 
+    const knownStremer = await streamerExists(toPubkey.toString())
+
+    let iconUrl: string
+    let title: string
+    let description: string
+    let label: string
+    let disabled: boolean
+    let error: ActionError | undefined
+
+    if ( knownStremer ) {
+
+        iconUrl = new URL("/donate-image.jpg", requestUrl.origin).toString()
+        title = "Donate title"
+        description = "Donate description"
+        label = "Donate label"
+        disabled = false
+        error = undefined
+
+    } else {
+
+        // I think we should show some graphic that explains how to set up if we end up in this situation
+        iconUrl = new URL("/unknown-streamer-image.jpg", requestUrl.origin).toString()
+        title = "Unknown streamer title"
+        description = "Unknown streamer description"
+        label = "Unknown streamer label"
+        disabled = false
+        error = {
+            message: "Unknown streamer error message"
+        }
+
     }
-    
+
     const actionGetResponse: ActionGetResponse = {
-        icon: new URL("/solana_devs.jpg", requestUrl.origin).toString(),
-        title: 'Donate title',
-        description: 'Donate description',
-        label: 'Button text',
+        icon: iconUrl,
+        title: title,
+        description: description,
+        label: label,
+        disabled: disabled,
         links: {
             actions: [
                 {
-                    label: "Message", // button text
+                    label: "Send Message",
                     href: `${baseHref}&message={message}`, // this href will have a text input
                     parameters: [
-                      {
-                        name: "message", // parameter name in the `href` above
-                        label: "What do you want your message to say?", // placeholder of the text input
-                        required: true,
-                      },
+                        {
+                            name: "message", // parameter name in the `href` above
+                            label: "What do you want your message to say?", // placeholder of the text input
+                            required: true,
+                        }
                     ],
                 },
             ]
-        }
+        },
+        error: error
         
     }
 
@@ -58,19 +82,7 @@ export async function POST(request: Request) {
     const requestUrl = new URL(request.url);
     const { amount, message, toPubkey } = validatedQueryParams(requestUrl);
 
-    // Add a check that we support the pubkey you're linking to
-    try {
-        prisma.streamer.findFirstOrThrow({
-            where: {
-                pubkey: publicKey.toString()
-            }
-        })
-    } catch {
-        // Return error 
-    }
-
     const body: ActionPostRequest = await request.json();
-
 
     // validate the client provided input
     let account: PublicKey;
