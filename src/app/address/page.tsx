@@ -1,5 +1,6 @@
 "use client";
 import StreamlabsAuthButton from "@/components/StreamlabsAuthButton";
+import { blinkUrl } from "@/utils/blink-url";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ export default function Address() {
   // code for the `getBalanceEvery10Seconds` and useEffect code here
  
   function copyBlink() {
-    const textToCopy = `http://localhost:3000/donate?to=${publicKey!}&message={message}`;
+    const textToCopy = blinkUrl(publicKey!.toBase58());
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
         alert("Text copied to clipboard!");

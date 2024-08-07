@@ -4,6 +4,8 @@ import { createNoopSigner, publicKey, PublicKey } from '@metaplex-foundation/umi
 import { donateSolTransaction } from '@/utils/donate-sol-transaction';
 import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
 import { streamerExists } from '@/utils/streamer-exists';
+import { truncatePubkey } from '@/utils/truncate-pubkey';
+import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
 
 export async function GET(request: Request) {
 
@@ -57,14 +59,29 @@ export async function GET(request: Request) {
         links: {
             actions: [
                 {
-                    label: "Send Message",
-                    href: `${baseHref}&message={message}`, // this href will have a text input
+                    label: "Send Tip",
+                    href: `${baseHref}&message={message}&amount={amount}&name={name}`,
                     parameters: [
                         {
-                            name: "message", // parameter name in the `href` above
-                            label: "What do you want your message to say?", // placeholder of the text input
+                            type: "number",
+                            name: "amount",
+                            label: "Select amount to tip",
                             required: true,
-                        }
+                        },
+                        {
+                            name: "name",
+                            label: "What is your name? ( Optional ) ",
+                            required: false,
+                            pattern: "^.{0,50}$",
+                            patternDescription: "A name must be less than 50 characters long."
+                        },
+                        {
+                            name: "message", // parameter name in the `href` above
+                            label: "Send a message with your tip?", 
+                            required: true,
+                            pattern: "^.{0,199}$",
+                            patternDescription: "A message must be less than 200 characters long."
+                        },
                     ],
                 },
             ]
@@ -80,7 +97,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
 
     const requestUrl = new URL(request.url);
-    const { amount, message, toPubkey } = validatedQueryParams(requestUrl);
+    const { amount, message, toPubkey, name } = validatedQueryParams(requestUrl);
 
     const body: ActionPostRequest = await request.json();
 
@@ -96,9 +113,12 @@ export async function POST(request: Request) {
         );
     }
 
+    const senderName = name ?? truncatePubkey(account.toString())
+
     const source = createNoopSigner(account)
 
-    const umiTransaction = await donateSolTransaction(source, message, toPubkey, amount)
+    // const umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
+    const umiTransaction = await donateUsdcTransaction(source, toPubkey, message, senderName, amount)
 
     const transaction = toWeb3JsTransaction(umiTransaction)
 
@@ -106,7 +126,7 @@ export async function POST(request: Request) {
         {
             fields: {
                 transaction,
-                message: `Sent 0.01 SOL to streamer!`,
+                message: `Sent ${amount} USDC to streamer!`,
             },
         }
     );
@@ -116,10 +136,11 @@ export async function POST(request: Request) {
 
 export const OPTIONS = GET;
 
-function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string } {
+function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string, name: string | null } {
     let toPubkey: PublicKey;
     let amount: number;
     let message: string;
+    let name: string | null;
   
     try {
         toPubkey = publicKey(requestUrl.searchParams.get("to")!)
@@ -127,22 +148,25 @@ function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: n
         throw "Invalid input query parameter: to";
     }
   
-    // try {
-    //     amount = parseFloat(requestUrl.searchParams.get("amount")!);
-    //     if (amount <= 0) throw "amount is too small";
-    // } catch (err) {
-    //     throw "Invalid input query parameter: amount";
-    // }
+    try {
+        amount = parseFloat(requestUrl.searchParams.get("amount")!);
+        if (amount <= 0) throw "amount is too small";
+    } catch (err) {
+        throw "Invalid input query parameter: amount";
+    }
 
     try {
         message = requestUrl.searchParams.get("message")!
     } catch (err) {
         throw "Invalid input query parameter: message";
     }
+
+    name = requestUrl.searchParams.get("name")
   
     return {
-        amount: 1,
+        amount,
         toPubkey,
-        message
+        message,
+        name
     };
 }
