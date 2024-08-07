@@ -3,6 +3,7 @@ import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_
 import { createNoopSigner, publicKey, PublicKey } from '@metaplex-foundation/umi';
 import { donateSolTransaction } from '@/utils/donate-sol-transaction';
 import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
+import prisma from '../../../../utils/prisma'
 
 export async function GET(request: Request) {
 
@@ -15,6 +16,16 @@ export async function GET(request: Request) {
         requestUrl.origin,
       ).toString();
 
+      try {
+        prisma.streamer.findFirstOrThrow({
+            where: {
+                pubkey: publicKey.toString()
+            }
+        })
+    } catch {
+        // Return error 
+    }
+    
     const actionGetResponse: ActionGetResponse = {
         icon: new URL("/solana_devs.jpg", requestUrl.origin).toString(),
         title: 'Donate title',
@@ -47,8 +58,19 @@ export async function POST(request: Request) {
     const requestUrl = new URL(request.url);
     const { amount, message, toPubkey } = validatedQueryParams(requestUrl);
 
+    // Add a check that we support the pubkey you're linking to
+    try {
+        prisma.streamer.findFirstOrThrow({
+            where: {
+                pubkey: publicKey.toString()
+            }
+        })
+    } catch {
+        // Return error 
+    }
 
     const body: ActionPostRequest = await request.json();
+
 
     // validate the client provided input
     let account: PublicKey;
