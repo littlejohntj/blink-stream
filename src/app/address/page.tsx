@@ -9,20 +9,15 @@ export default function Address() {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const [balance, setBalance] = useState<number>(0);
- 
-  // code for the `getAirdropOnClick` function here
-  const getAirdropOnClick = async () => {
-    console.log("Airdrop")
-  };
- 
   // code for the `getBalanceEvery10Seconds` and useEffect code here
  
   return (
     <main className="flex min-h-screen flex-col items-center justify-evenly p-24">
       {publicKey ? (
         <div className="flex flex-col gap-4">
+          <button className="btn btn-primary">Button</button>
           <div>
-            <StreamlabsAuthButton />
+            <StreamlabsAuthButton pubkey={`${publicKey}`}  />
           </div>
         </div>
       ) : (
