@@ -17,7 +17,7 @@ export const donateSolTransaction = async (source: Signer, message: string, toPu
         umi, {
             source,
             destination,
-            amount: sol(0.01)
+            amount: sol(0.001)
         }
     )
 
