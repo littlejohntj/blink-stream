@@ -7,10 +7,9 @@
 - Config stuff like env
 
 ### Todo
-- Set up a database
-- Set up some donation actions
-- Set up helius webhooks
-- Host an action icon
+- Add usdc support
+- Add multiple donation amounts
+- Fix UI css bug
 
 ### Signing Up For Helius
 
