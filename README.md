@@ -6,10 +6,21 @@
 - Code info
 - Config stuff like env
 
-### Todo
+## Todo
+
+### Need to have
 - Add usdc support
 - Add multiple donation amounts
 - Fix UI css bug
+- Add a real domain name
+- Deploy with next
+- Outline the full set up flow
+- Let streamers set their donation amount and token
+- Clean up code so it actually works
+- Add the tiplink wallet adapter
+
+### Nice to have
+- Message filtering
 
 ### Signing Up For Helius
 
