@@ -4,7 +4,10 @@ import React from 'react';
 
 const StreamlabsAuthButton: React.FC<{ pubkey: string, authorized: boolean }> = ({ pubkey, authorized }) => {
   const handleAuth = () => {
-    const authUrl = `https://streamlabs.com/api/v2.0/authorize?state=${pubkey}&response_type=code&client_id=9cb42312-623d-42a6-9e39-df38a1b823a0&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2Fstreamlabs&scope=alerts.create`;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const redirectUrl = `${baseUrl}/api/auth/callback/streamlabs`
+    const clientId = process.env.STREAMLABS_CLIENT_ID!
+    const authUrl = `https://streamlabs.com/api/v2.0/authorize?state=${pubkey}&response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=alerts.create`;
     window.location.href = authUrl;
   };
 

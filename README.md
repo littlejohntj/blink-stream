@@ -17,13 +17,14 @@
 - Custom gif
 - Use the stremaer minimum
   - I still need to show the user they did not meet the minimum
+- Make the apis for the front end permissioned
 
 ### Nice to have
 - Message filtering
 - Let streamers set their donation amount and token
 - Let streamer pick a token to receive
 - Add token swaps from the sender token to the receiver token
-
+- See if we should be sending a donation post request instead of an alert
 
 ### Setting Up Helius
 
