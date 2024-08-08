@@ -1,6 +1,6 @@
 import prisma from "./prisma"
 
-export const streamerInfo = async ( pubkey: string ): Promise<{ name: string, pubkey: string } | null> => {
+export const streamerInfo = async ( pubkey: string ): Promise<{ name: string, pubkey: string, minimum: number } | null> => {
 
     const streamer = await prisma.streamer.findFirst({
         where: {
@@ -14,6 +14,7 @@ export const streamerInfo = async ( pubkey: string ): Promise<{ name: string, pu
 
     return {
         name: streamer.name,
-        pubkey: streamer.pubkey
+        pubkey: streamer.pubkey,
+        minimum: streamer.minimum
     }
 }

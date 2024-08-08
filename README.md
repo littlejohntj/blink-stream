@@ -9,18 +9,22 @@
 ## Todo
 
 ### Need to have
-- Add usdc support
-- Add multiple donation amounts
-- Fix UI css bug
 - Add a real domain name
 - Deploy with next
 - Outline the full set up flow
-- Let streamers set their donation amount and token
-- Clean up code so it actually works
 - Add the tiplink wallet adapter
+- Helius Auth Code
+- Show a connected wallet they have not authorized with Streamlabs
+- Make an info page
+- Custom gif
+- Use the stremaer minimum
+- Let streamer pick a token to receive
+- Add token swaps from the sender token to the receiver token
 
 ### Nice to have
 - Message filtering
+- Let streamers set their donation amount and token
+- Script to generate pubkey
 
 ### Signing Up For Helius
 
@@ -33,6 +37,10 @@
 - Webhook Url: <url from ngrok>/api/helius
 - Account Address: Pubkey from your .local.env file
 
-### More dono paramters
-- Parse it cleaner on the helius webhook
-- Make a usdc dono transaction, have it create the token account if non exists yet ( sad! )
+## Docs Outline
+- Register w/ Streamlabs
+- Setting Up Helius
+- Setting Up Database
+- How to Works ( Sequence Diagrams )
+- Env File
+- Video Demo

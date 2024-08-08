@@ -15,7 +15,8 @@ export const updateOrCreateStreamer = async ( pubkey: string, accessToken: strin
             data: {
                 accessToken: accessToken,
                 pubkey: pubkey,
-                name: ''
+                name: '',
+                minimum: 1
             }
         })
     } else {

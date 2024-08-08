@@ -21,4 +21,5 @@ model Streamer {
   pubkey          String    @unique
   accessToken   String      @db.VarChar(1500)
   name          String      @db.VarChar(255)
+  minimum       Int         
 }

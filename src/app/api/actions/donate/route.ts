@@ -62,27 +62,59 @@ export async function GET(request: Request) {
             actions: [
                 {
                     label: "Send Tip",
-                    href: `${baseHref}&message={message}&amount={amount}&name={name}`,
+                    href: `${baseHref}&message={message}&amount={amount}&name={name}&token={token}`,
                     parameters: [
+                        {
+                            type: "radio",
+                            name: "token",
+                            label: "What token do you want to tip with?",
+                            options: [
+                                {
+                                    label: "SOL",
+                                    value: "sol",
+                                    selected: false
+                                },
+                                {
+                                    label: "USDC",
+                                    value: "usdc",
+                                    selected: true
+                                },
+                                {
+                                    label: "Bonk",
+                                    value: "bonk",
+                                    selected: true
+                                },
+                                {
+                                    label: "JUP",
+                                    value: "jup",
+                                    selected: false
+                                }
+                            ],
+                            required: true
+                        },
                         {
                             type: "number",
                             name: "amount",
-                            label: "Select amount to tip",
+                            label: "How much of the token do you want to tip?",
                             required: true,
+                            min: 0.0000001,
+                            patternDescription: `Note: ${streamer!.name} requires the amount be worth at least 1 USDC to be displayed.`
                         },
                         {
                             name: "name",
                             label: "What is your name? ( Optional ) ",
                             required: false,
                             pattern: "^.{0,50}$",
-                            patternDescription: "A name must be less than 50 characters long."
+                            max: 50
+                            // patternDescription: "A name must be less than 50 characters long."
                         },
                         {
                             name: "message", // parameter name in the `href` above
-                            label: "Send a message with your tip?", 
+                            label: "Send a message with your tip", 
                             required: true,
                             pattern: "^.{0,199}$",
-                            patternDescription: "A message must be less than 200 characters long."
+                            max: 200
+                            // patternDescription: "A message must be less than 200 characters long."
                         },
                     ],
                 },
@@ -99,7 +131,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
 
     const requestUrl = new URL(request.url);
-    const { amount, message, toPubkey, name } = validatedQueryParams(requestUrl);
+    const { amount, message, toPubkey, name, token } = validatedQueryParams(requestUrl);
 
     const body: ActionPostRequest = await request.json();
 
@@ -138,11 +170,12 @@ export async function POST(request: Request) {
 
 export const OPTIONS = GET;
 
-function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string, name: string | null } {
+function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string, name: string | null, token: string } {
     let toPubkey: PublicKey;
     let amount: number;
     let message: string;
     let name: string | null;
+    let token: string;
   
     try {
         toPubkey = publicKey(requestUrl.searchParams.get("to")!)
@@ -163,12 +196,19 @@ function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: n
         throw "Invalid input query parameter: message";
     }
 
+    try {
+        token = requestUrl.searchParams.get("token")!
+    } catch (err) {
+        throw "Invalid input query parameter: message";
+    }
+
     name = requestUrl.searchParams.get("name")
   
     return {
         amount,
         toPubkey,
         message,
-        name
+        name,
+        token
     };
 }
