@@ -17,9 +17,6 @@
 - Make an info page
 - Custom gif
 - Use the stremaer minimum
-- Use the token input from the donor 
-- Check if the receiving wallet has a token account and create one if not
-- Block the ui from putting in a token min under 0
 
 ### Nice to have
 - Message filtering

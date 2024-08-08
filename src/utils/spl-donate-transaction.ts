@@ -1,8 +1,9 @@
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
-import { addMemo, findAssociatedTokenPda, getSplTokenProgram, SPL_TOKEN_PROGRAM_ID, transferSol, transferTokensChecked, TransferTokensCheckedInstructionAccounts, TransferTokensCheckedInstructionData } from '@metaplex-foundation/mpl-toolbox'
+import { addMemo, createMintWithAssociatedToken, CreateTokenIfMissingInstructionAccounts, CreateTokenIfMissingInstructionData, findAssociatedTokenPda, getSplTokenProgram, SPL_TOKEN_PROGRAM_ID, transferSol, transferTokensChecked, TransferTokensCheckedInstructionAccounts, TransferTokensCheckedInstructionData } from '@metaplex-foundation/mpl-toolbox'
 import { publicKey, PublicKey, Signer, signerIdentity, sol, Transaction, transactionBuilder } from '@metaplex-foundation/umi'
 import { mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
 import { decimalsForSupportedSplToken, SupportedSplToken, tokenMintAddressForSupportedSplToken } from './supported-tokens'
+import { createTokenIfMissing } from '@metaplex-foundation/mpl-toolbox'
 
 export const donateSplTransaction = async ( source: Signer, destination: PublicKey, message: string, name: string, amount: number, token: SupportedSplToken ): Promise<Transaction> => {
 
@@ -45,6 +46,22 @@ export const donateSplTransaction = async ( source: Signer, destination: PublicK
         authority: source
     }
 
+    const createTokenAccounts: CreateTokenIfMissingInstructionAccounts = {
+        payer: source,
+        token: destinationAta,
+        mint: splPubkey,
+        owner: destination,
+        ata: destinationAta
+    }
+
+    // const createTokenData: CreateTokenIfMissingInstructionData = {
+
+    // }
+
+    const createTokenIfMissingBuilder = createTokenIfMissing(umi, {
+        ...createTokenAccounts
+    })
+
     const transferSplBuilder = transferTokensChecked(
         umi, {
             ...transferTokensAccounts,
@@ -66,7 +83,7 @@ export const donateSplTransaction = async ( source: Signer, destination: PublicK
         }
     )
 
-    const builder = transactionBuilder().add(transferSplBuilder).add(memoBuilder).addRemainingAccounts(
+    const builder = transactionBuilder().add(createTokenIfMissingBuilder).add(transferSplBuilder).add(memoBuilder).addRemainingAccounts(
         {
             pubkey: heliusWebhookPubkey, 
             isSigner: false, 
