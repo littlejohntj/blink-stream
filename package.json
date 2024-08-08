@@ -7,7 +7,8 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "pubkey": "npx node scripts/pubkey.js"
+    "pubkey": "npx node scripts/pubkey.js",
+    "postinstall": "npm install --platform=linux --arch=x64 sharp"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
