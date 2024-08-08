@@ -11,11 +11,9 @@
 ### Need to have
 - Add a real domain name
 - Outline the full set up flow
-- Helius Auth Code
 - Make an info page
 - Custom gif
 - Make the apis for the front end permissioned
-- Set up the real helius webhook
 
 ### Nice to have
 - Message filtering
@@ -23,6 +21,12 @@
 - Let streamer pick a token to receive
 - Add token swaps from the sender token to the receiver token
 - See if we should be sending a donation post request instead of an alert
+
+### Bugs
+- Double notifactions when running locally since were using the same pubkeys for mainnet and local
+- Fails on sol transfers since there is no tokenTransfers struct in the helius response
+- Streamer name text does not render on production for the streamer image
+
 
 ### Setting Up Helius
 
