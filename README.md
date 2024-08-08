@@ -10,14 +10,12 @@
 
 ### Need to have
 - Add a real domain name
-- Deploy with next
 - Outline the full set up flow
 - Helius Auth Code
 - Make an info page
 - Custom gif
-- Use the stremaer minimum
-  - I still need to show the user they did not meet the minimum
 - Make the apis for the front end permissioned
+- Set up the real helius webhook
 
 ### Nice to have
 - Message filtering

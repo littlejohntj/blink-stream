@@ -160,7 +160,10 @@ export async function POST(request: Request) {
     const valueOfDonationAmount = amount * priceOfSelectedToken
     
     if ( valueOfDonationAmount < streamer!.minimum ) {
-        return NextResponse.json({ error: "Value of tip selected was less than the amount specified by the streamer." }, { status: 403, headers: ACTIONS_CORS_HEADERS }); 
+        const actionPostError: ActionError = {
+            message: `The USD value of the donation must be more $${streamer!.minimum}.`
+        };
+        return NextResponse.json( actionPostError,  { status: 403, headers: ACTIONS_CORS_HEADERS }); 
     }
 
     const senderName = name ?? truncatePubkey(account.toString())
