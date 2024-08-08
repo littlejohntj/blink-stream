@@ -14,6 +14,7 @@
 - Make an info page
 - Custom gif
 - Make the apis for the front end permissioned
+- New favicon
 
 ### Nice to have
 - Message filtering
