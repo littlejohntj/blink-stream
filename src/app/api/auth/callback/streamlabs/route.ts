@@ -27,7 +27,8 @@ export async function GET(request: Request) {
     await prisma.streamer.create({
       data: {
         pubkey: state,
-        accessToken: accessToken
+        accessToken: accessToken,
+        name: ''
       }
     })
     

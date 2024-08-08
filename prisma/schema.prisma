@@ -18,6 +18,7 @@ model Streamer {
   id              Int       @default(autoincrement()) @id
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  pubkey          String    @db.VarChar(255)
-  accessToken   String    @db.VarChar(1500)
+  pubkey          String    @unique
+  accessToken   String      @db.VarChar(1500)
+  name          String      @db.VarChar(255)
 }
