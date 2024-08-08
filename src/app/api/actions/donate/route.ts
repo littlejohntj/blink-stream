@@ -6,6 +6,9 @@ import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
 import { streamerExists } from '@/utils/streamer-exists';
 import { truncatePubkey } from '@/utils/truncate-pubkey';
 import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
+import { streamerInfo } from '@/utils/streamer-info';
+import { donateSplTransaction } from '@/utils/spl-donate-transaction';
+import { displayStringForTokenString, supportedSplTokenForTokenString } from '@/utils/supported-tokens';
 
 export async function GET(request: Request) {
 
@@ -19,6 +22,7 @@ export async function GET(request: Request) {
       ).toString();
 
     const knownStremer = await streamerExists(toPubkey.toString())
+    const streamer = await streamerInfo(toPubkey.toString())
 
     let iconUrl: string
     let title: string
@@ -27,11 +31,11 @@ export async function GET(request: Request) {
     let disabled: boolean
     let error: ActionError | undefined
 
-    if ( knownStremer ) {
+    if ( streamer != null ) {
 
-        iconUrl = new URL("/donate-image.jpg", requestUrl.origin).toString()
-        title = "Donate title"
-        description = "Donate description"
+        iconUrl = new URL(`/api/streamer-image.png?pubkey=${toPubkey.toString()}`, requestUrl.origin).toString()
+        title = `Donate to ${streamer.name}`
+        description = `Donate to ${streamer.name}'s live stream and have your message be shown on screen.`
         label = "Donate label"
         disabled = false
         error = undefined
@@ -60,27 +64,59 @@ export async function GET(request: Request) {
             actions: [
                 {
                     label: "Send Tip",
-                    href: `${baseHref}&message={message}&amount={amount}&name={name}`,
+                    href: `${baseHref}&message={message}&amount={amount}&name={name}&token={token}`,
                     parameters: [
+                        {
+                            type: "radio",
+                            name: "token",
+                            label: "What token do you want to tip with?",
+                            options: [
+                                {
+                                    label: "SOL",
+                                    value: "sol",
+                                    selected: false
+                                },
+                                {
+                                    label: "USDC",
+                                    value: "usdc",
+                                    selected: true
+                                },
+                                {
+                                    label: "Bonk",
+                                    value: "bonk",
+                                    selected: true
+                                },
+                                {
+                                    label: "JUP",
+                                    value: "jup",
+                                    selected: false
+                                }
+                            ],
+                            required: true
+                        },
                         {
                             type: "number",
                             name: "amount",
-                            label: "Select amount to tip",
+                            label: "How much of the token do you want to tip?",
                             required: true,
+                            min: 0.0000001,
+                            patternDescription: `Note: ${streamer!.name} requires the amount be worth at least 1 USDC to be displayed.`
                         },
                         {
                             name: "name",
                             label: "What is your name? ( Optional ) ",
                             required: false,
                             pattern: "^.{0,50}$",
-                            patternDescription: "A name must be less than 50 characters long."
+                            max: 50
+                            // patternDescription: "A name must be less than 50 characters long."
                         },
                         {
                             name: "message", // parameter name in the `href` above
-                            label: "Send a message with your tip?", 
+                            label: "Send a message with your tip", 
                             required: true,
                             pattern: "^.{0,199}$",
-                            patternDescription: "A message must be less than 200 characters long."
+                            max: 200
+                            // patternDescription: "A message must be less than 200 characters long."
                         },
                     ],
                 },
@@ -97,7 +133,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
 
     const requestUrl = new URL(request.url);
-    const { amount, message, toPubkey, name } = validatedQueryParams(requestUrl);
+    const { amount, message, toPubkey, name, token } = validatedQueryParams(requestUrl);
 
     const body: ActionPostRequest = await request.json();
 
@@ -117,8 +153,15 @@ export async function POST(request: Request) {
 
     const source = createNoopSigner(account)
 
-    // const umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
-    const umiTransaction = await donateUsdcTransaction(source, toPubkey, message, senderName, amount)
+    let umiTransaction;
+    
+
+    if ( token == 'sol' ) {
+        umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
+    } else {
+        const splToken = supportedSplTokenForTokenString(token)
+        umiTransaction = await donateSplTransaction(source, toPubkey, message, senderName, amount, splToken)
+    }
 
     const transaction = toWeb3JsTransaction(umiTransaction)
 
@@ -126,7 +169,7 @@ export async function POST(request: Request) {
         {
             fields: {
                 transaction,
-                message: `Sent ${amount} USDC to streamer!`,
+                message: `Sent ${amount} ${ displayStringForTokenString(token) } to streamer!`,
             },
         }
     );
@@ -136,11 +179,12 @@ export async function POST(request: Request) {
 
 export const OPTIONS = GET;
 
-function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string, name: string | null } {
+function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: number, message: string, name: string | null, token: string } {
     let toPubkey: PublicKey;
     let amount: number;
     let message: string;
     let name: string | null;
+    let token: string;
   
     try {
         toPubkey = publicKey(requestUrl.searchParams.get("to")!)
@@ -161,12 +205,19 @@ function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: n
         throw "Invalid input query parameter: message";
     }
 
+    try {
+        token = requestUrl.searchParams.get("token")!
+    } catch (err) {
+        throw "Invalid input query parameter: message";
+    }
+
     name = requestUrl.searchParams.get("name")
   
     return {
         amount,
         toPubkey,
         message,
-        name
+        name,
+        token
     };
 }

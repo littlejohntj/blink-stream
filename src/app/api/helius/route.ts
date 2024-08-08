@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import * as bs58 from 'bs58';
 import axios from 'axios';
 import prisma from '../../../utils/prisma'
+import { displayStringForTokenString } from '@/utils/supported-tokens';
 
 export async function POST(request: Request) {
 
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
         "image_href": "",
         "sound_href": "",
         "message": tipDescription.message,
-        "user_message": `${tipDescription.name} donated ${tipDescription.amount} USDC`,
+        "user_message": `${tipDescription.name} donated ${tipDescription.amount} ${ displayStringForTokenString(tipDescription.token) }`,
         "duration": "8000",
         "special_text_color": "Blue"      
     }, {
