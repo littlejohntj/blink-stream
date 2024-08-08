@@ -6,6 +6,7 @@ import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
 import { streamerExists } from '@/utils/streamer-exists';
 import { truncatePubkey } from '@/utils/truncate-pubkey';
 import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
+import { streamerInfo } from '@/utils/streamer-info';
 
 export async function GET(request: Request) {
 
@@ -19,6 +20,7 @@ export async function GET(request: Request) {
       ).toString();
 
     const knownStremer = await streamerExists(toPubkey.toString())
+    const streamer = await streamerInfo(toPubkey.toString())
 
     let iconUrl: string
     let title: string
@@ -27,11 +29,11 @@ export async function GET(request: Request) {
     let disabled: boolean
     let error: ActionError | undefined
 
-    if ( knownStremer ) {
+    if ( streamer != null ) {
 
-        iconUrl = new URL("/donate-image.jpg", requestUrl.origin).toString()
-        title = "Donate title"
-        description = "Donate description"
+        iconUrl = new URL(`/api/streamer-image.png?pubkey=${toPubkey.toString()}`, requestUrl.origin).toString()
+        title = `Donate to ${streamer.name}`
+        description = `Donate to ${streamer.name}'s live stream and have your message be shown on screen.`
         label = "Donate label"
         disabled = false
         error = undefined
