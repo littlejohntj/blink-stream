@@ -14,17 +14,20 @@
 - Outline the full set up flow
 - Add the tiplink wallet adapter
 - Helius Auth Code
-- Show a connected wallet they have not authorized with Streamlabs
 - Make an info page
 - Custom gif
 - Use the stremaer minimum
-- Let streamer pick a token to receive
-- Add token swaps from the sender token to the receiver token
+- Use the token input from the donor 
+- Check if the receiving wallet has a token account and create one if not
+- Block the ui from putting in a token min under 0
 
 ### Nice to have
 - Message filtering
 - Let streamers set their donation amount and token
 - Script to generate pubkey
+- Let streamer pick a token to receive
+- Add token swaps from the sender token to the receiver token
+
 
 ### Signing Up For Helius
 

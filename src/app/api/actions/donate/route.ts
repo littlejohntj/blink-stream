@@ -7,6 +7,8 @@ import { streamerExists } from '@/utils/streamer-exists';
 import { truncatePubkey } from '@/utils/truncate-pubkey';
 import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
 import { streamerInfo } from '@/utils/streamer-info';
+import { donateSplTransaction } from '@/utils/spl-donate-transaction';
+import { displayStringForTokenString, supportedSplTokenForTokenString } from '@/utils/supported-tokens';
 
 export async function GET(request: Request) {
 
@@ -151,8 +153,15 @@ export async function POST(request: Request) {
 
     const source = createNoopSigner(account)
 
-    // const umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
-    const umiTransaction = await donateUsdcTransaction(source, toPubkey, message, senderName, amount)
+    let umiTransaction;
+    
+
+    if ( token == 'sol' ) {
+        umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
+    } else {
+        const splToken = supportedSplTokenForTokenString(token)
+        umiTransaction = await donateSplTransaction(source, toPubkey, message, senderName, amount, splToken)
+    }
 
     const transaction = toWeb3JsTransaction(umiTransaction)
 
@@ -160,7 +169,7 @@ export async function POST(request: Request) {
         {
             fields: {
                 transaction,
-                message: `Sent ${amount} USDC to streamer!`,
+                message: `Sent ${amount} ${ displayStringForTokenString(token) } to streamer!`,
             },
         }
     );

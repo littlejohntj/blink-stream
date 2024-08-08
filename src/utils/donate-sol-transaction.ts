@@ -25,6 +25,7 @@ export const donateSolTransaction = async (source: Signer, message: string, toPu
         name: name,
         message: message,
         amount: amount,
+        token: 'sol'
     }
 
     const tipDescriptionJsonString = JSON.stringify(tipDescription)
