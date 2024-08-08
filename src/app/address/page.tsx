@@ -48,7 +48,6 @@ export default function Address() {
           const response = await fetch(`/api/name?name=${streamerNameTextInput}&pubkey=${publicKey!.toBase58()}`);
           if ( response.status != 200 ) { throw new Error("Bad response") }
           const result = await response.json();
-          console.log("FUCK")
           setStreamerNameSourceOfTruth(result.name);
           setStreamerNameTextInput(result.name);
           setStreamerNameUpdatedAlertVisiable(true)
