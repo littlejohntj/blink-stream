@@ -10,7 +10,7 @@ import StreamerNameUpdatedToast from "@/components/toasts/StreamerNameUpdatedToa
 import FailedToUpdateStreamerNameToast from "@/components/toasts/FailedToUpdateStreamerNameToast";
 import StreamerMinimumUpdatedToast from "@/components/toasts/StreamerMinimumUpdatedToast";
 
-export const WalletButton = dynamic( async () => 
+const WalletButton = dynamic( async () => 
     (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
     { ssr: false },
 )
