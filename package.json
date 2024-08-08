@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pubkey": "npx node scripts/pubkey.js"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",

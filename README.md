@@ -12,30 +12,34 @@
 - Add a real domain name
 - Deploy with next
 - Outline the full set up flow
-- Add the tiplink wallet adapter
 - Helius Auth Code
 - Make an info page
 - Custom gif
 - Use the stremaer minimum
+  - I still need to show the user they did not meet the minimum
 
 ### Nice to have
 - Message filtering
 - Let streamers set their donation amount and token
-- Script to generate pubkey
 - Let streamer pick a token to receive
 - Add token swaps from the sender token to the receiver token
 
 
-### Signing Up For Helius
+### Setting Up Helius
 
-1. Go to the [Helius](https://www.helius.dev/) website and create an account
-2. Go to the webhooks section of the developer portal
-3. Create a new webhook with the following settings
+1. Run the script with the command `npm run pubkey` to generate a new pubkey to use for Helius Webhooks
+2. Add this pubkey as the HELIUS_WEBHOOK_PUBKEY var in your .env file
+3. Add a secret string you come up with as the HELIUS_AUTH_HEADER var in your .env file
+3. Go to the [Helius](https://www.helius.dev/) website and create an account
+4. Go to the webhooks section of the developer portal
+5. Create a new webhook with the following settings
 - Network: Mainnet
 - Webhook Type: Enhanced
 - Transaction Type: Any
 - Webhook Url: <url from ngrok>/api/helius
+- Authentication Header: string from your .local.env file
 - Account Address: Pubkey from your .local.env file
+6. Go to your RPCs and copy the mainnet rpc url and add this as the RPC_URL var in your .env file
 
 ## Docs Outline
 - Register w/ Streamlabs

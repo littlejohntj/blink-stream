@@ -10,16 +10,7 @@ export async function POST(request: Request) {
     const transaction = transactions[0]
     const instructions = transaction.instructions
     const lastInstruction = instructions[instructions.length - 1]
-    const lastInstructionProgramId = lastInstruction.programId
     const lastInstructionData = lastInstruction.data
-
-    const transferInstruction = instructions[instructions.length - 2]
-
-    // const streamerPubkey = transferInstruction.accounts[0]
-    // const senderPubkey = transferInstruction.accounts[1]
-
-    console.log(transaction)
-    console.log(transferInstruction)
 
     const streamerPubkey = transaction.tokenTransfers[0].toUserAccount
 

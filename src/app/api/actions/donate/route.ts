@@ -8,7 +8,9 @@ import { truncatePubkey } from '@/utils/truncate-pubkey';
 import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
 import { streamerInfo } from '@/utils/streamer-info';
 import { donateSplTransaction } from '@/utils/spl-donate-transaction';
-import { displayStringForTokenString, supportedSplTokenForTokenString } from '@/utils/supported-tokens';
+import { displayStringForTokenString, supportedSplTokenForTokenString, supportedTokenForTokenString } from '@/utils/supported-tokens';
+import { priceOfSupportedToken } from '@/utils/price-of-supported-token';
+import { error } from 'console';
 
 export async function GET(request: Request) {
 
@@ -149,12 +151,23 @@ export async function POST(request: Request) {
         );
     }
 
+    const streamer = await streamerInfo(toPubkey.toString())
+
+    const supportedToken = supportedTokenForTokenString(token)
+
+    const priceOfSelectedToken = await priceOfSupportedToken(supportedToken)
+
+    const valueOfDonationAmount = amount * priceOfSelectedToken
+    
+    if ( valueOfDonationAmount < streamer!.minimum ) {
+        return NextResponse.json({ error: "Value of tip selected was less than the amount specified by the streamer." }, { status: 403, headers: ACTIONS_CORS_HEADERS }); 
+    }
+
     const senderName = name ?? truncatePubkey(account.toString())
 
     const source = createNoopSigner(account)
 
     let umiTransaction;
-    
 
     if ( token == 'sol' ) {
         umiTransaction = await donateSolTransaction(source, message, toPubkey, amount, senderName)
