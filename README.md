@@ -9,22 +9,28 @@
 ## Todo
 
 ### Need to have
-- Add a real domain name
-- Deploy with next
 - Outline the full set up flow
-- Helius Auth Code
-- Make an info page
-- Custom gif
-- Use the stremaer minimum
-  - I still need to show the user they did not meet the minimum
 - Make the apis for the front end permissioned
 
 ### Nice to have
 - Message filtering
+- Build in "levels of confusing" modes ie. Just message + Send $1 vs.  All the tokens appearing
 - Let streamers set their donation amount and token
 - Let streamer pick a token to receive
 - Add token swaps from the sender token to the receiver token
 - See if we should be sending a donation post request instead of an alert
+
+### Bugs
+- Double notifactions when running locally since were using the same pubkeys for mainnet and local
+- Fails on sol transfers since there is no tokenTransfers struct in the helius response
+- Streamer name text does not render on production for the streamer image
+
+### Branding Todos
+- Make an info page
+- New favicon
+- Custom gif
+- Add a real domain name
+
 
 ### Setting Up Helius
 

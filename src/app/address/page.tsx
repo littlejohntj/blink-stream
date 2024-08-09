@@ -185,7 +185,7 @@ export default function Address() {
                                   value={streamerMinimumInput}
                                   onChange={handleMinimumChange} 
                                   disabled={!streamerAuthorizedInput}
-                                  min={1}
+                                  min={0.01}
                                 />
                                 <button className="btn btn-primary" onClick={updateMinimum} disabled={ ( streamerMinimumIsUpdating || ( streamerMinimumInput == streamerMinimumSourceOfTruth ) || !streamerAuthorizedInput ) }>
                                   { streamerMinimumIsUpdating ?

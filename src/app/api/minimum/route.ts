@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
 
     const requestUrl = new URL(request.url);
-    const minimum = parseInt(requestUrl.searchParams.get("minimum")!)
+    const minimum = parseFloat(requestUrl.searchParams.get("minimum")!)
     const pubkey = requestUrl.searchParams.get("pubkey")!;
     
     await updateMinimum(minimum, pubkey)

@@ -72,7 +72,7 @@ export const supportedTokenForTokenString = ( tokenString: string ): SupportedTo
 }
 
 export const displayStringForTokenString = ( tokenString: string ): string => {
-    return `$${tokenString.toUpperCase()}`
+    return `${tokenString.toUpperCase()}`
 }
 
 export const jupTokenIdForSupportedToken= ( supportedToken: SupportedToken ): string => {

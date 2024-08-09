@@ -9,15 +9,14 @@ export const donateSolTransaction = async (source: Signer, message: string, toPu
     const heliusWebhookPubkey = publicKey(process.env.HELIUS_WEBHOOK_PUBKEY!)
 
     // static pubkey for dev
-    const destination = publicKey("7AC2ph5Wbe9dArpJALucSdRfcyuYHpxmi97aJA735Sr2")
 
     umi.use(signerIdentity(source));
 
     const transferSolBuilder = transferSol(
         umi, {
             source,
-            destination,
-            amount: sol(0.001)
+            destination: toPubkey,
+            amount: sol(amount)
         }
     )
 
