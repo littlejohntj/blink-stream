@@ -1,31 +1,84 @@
 "use client";
  
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 import { TipLinkWalletAdapter } from "@tiplink/wallet-adapter";
-import {
-    WalletDisconnectButton,
-    WalletMultiButton,
-    TipLinkWalletAutoConnectV2
-} from '@tiplink/wallet-adapter-react-ui';
+import type {
+  SolanaSignInInput,
+  SolanaSignInOutput,
+} from "@solana/wallet-standard-features";
+import { setLocalStorage } from "../utils/local-storage/local-storage";
+import { handleUserSignedInStateAndReturnFinalState } from "@/utils/user-sign-in/user-sign-in";
+
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 // imports here
+
+export const fetchSignInData = async (): Promise<SolanaSignInInput> => {
+
+  return {
+      
+  }
+  
+};
+
  
 export default function AppWalletProvider({
     children,
   }: {
     children: React.ReactNode;
   }) {
-    const network = WalletAdapterNetwork.Devnet;
+
+    const autoSignIn = useCallback(
+      async (adapter: Adapter) => {
+
+        const userIsSignedIn = handleUserSignedInStateAndReturnFinalState()
+
+        if ( userIsSignedIn ) {
+            return true;
+        }
+        
+      //   // If the signIn feature is not available, again triggers the default
+      //   // autoconnect
+        if (!("signIn" in adapter)) return true;
+  
+      // //   const input = await fetchSignInData()
+  
+
+      //   try {
+      //     // Send the signInInput to the wallet and trigger a sign-in request
+      //   // Note that a function is being passed to `signIn` – this only
+      //   // works for the tiplink wallet adapter. the @ts-ignore annotation 
+      //   // is required
+      //   //
+        // @ts-ignore
+          const output : SolanaSignInOutput = await adapter.signIn(fetchSignInData);
+
+          const auth = {
+              input: {},
+              output: output
+          }
+
+          const authString = JSON.stringify(auth)
+
+          setLocalStorage("auth", authString)
+
+  
+          return true
+      
+      },
+      []
+    );
+    
+    const network = WalletAdapterNetwork.Mainnet;
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
     const wallets = useMemo(
       () => [
@@ -42,7 +95,7 @@ export default function AppWalletProvider({
    
     return (
       <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
+        <WalletProvider wallets={wallets} autoConnect={autoSignIn}>
           <WalletModalProvider>{children}</WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
