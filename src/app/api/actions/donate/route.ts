@@ -11,6 +11,7 @@ import { donateSplTransaction } from '@/utils/spl-donate-transaction';
 import { displayStringForTokenString, supportedSplTokenForTokenString, supportedTokenForTokenString } from '@/utils/supported-tokens';
 import { priceOfSupportedToken } from '@/utils/price-of-supported-token';
 import { error } from 'console';
+import { filterMessage } from '@/utils/filter-message';
 
 export async function GET(request: Request) {
 
@@ -160,10 +161,19 @@ export async function POST(request: Request) {
     const valueOfDonationAmount = amount * priceOfSelectedToken
     
     if ( valueOfDonationAmount < streamer!.minimum ) {
-        const actionPostError: ActionError = {
+        const donationAmountError: ActionError = {
             message: `The USD value of the donation must be more $${streamer!.minimum}.`
         };
-        return NextResponse.json( actionPostError,  { status: 403, headers: ACTIONS_CORS_HEADERS }); 
+        return NextResponse.json( donationAmountError,  { status: 403, headers: ACTIONS_CORS_HEADERS }); 
+    }
+
+    const filterLevel = await filterMessage(message)
+
+    if ( filterLevel >= 8 ) {
+        const messageError: ActionError = {
+            message: `Your message was not approved by the AI. Be cool and try again.`
+        };
+        return NextResponse.json( messageError,  { status: 403, headers: ACTIONS_CORS_HEADERS }); 
     }
 
     const senderName = name ?? truncatePubkey(account.toString())
@@ -185,7 +195,7 @@ export async function POST(request: Request) {
         {
             fields: {
                 transaction,
-                message: `Sent ${amount} ${ displayStringForTokenString(token) } to streamer!`,
+                message: `Sent ${amount} ${ displayStringForTokenString(token) } to ${streamer!.name}`,
             },
         }
     );

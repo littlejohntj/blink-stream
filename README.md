@@ -9,15 +9,12 @@
 ## Todo
 
 ### Need to have
-- Add a real domain name
 - Outline the full set up flow
-- Make an info page
-- Custom gif
 - Make the apis for the front end permissioned
-- New favicon
 
 ### Nice to have
 - Message filtering
+- Build in "levels of confusing" modes ie. Just message + Send $1 vs.  All the tokens appearing
 - Let streamers set their donation amount and token
 - Let streamer pick a token to receive
 - Add token swaps from the sender token to the receiver token
@@ -27,6 +24,12 @@
 - Double notifactions when running locally since were using the same pubkeys for mainnet and local
 - Fails on sol transfers since there is no tokenTransfers struct in the helius response
 - Streamer name text does not render on production for the streamer image
+
+### Branding Todos
+- Make an info page
+- New favicon
+- Custom gif
+- Add a real domain name
 
 
 ### Setting Up Helius
