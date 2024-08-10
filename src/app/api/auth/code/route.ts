@@ -8,8 +8,6 @@ export async function GET( request: Request ) {
 
   const authHeader = request.headers.get('Authorization')
 
-  console.log(authHeader)
-
   if ( authHeader == null ) {
       // respond with an error
       return NextResponse.json({ error: 'No auth.' }, { status: 401 });
@@ -34,5 +32,5 @@ export async function GET( request: Request ) {
     state: oneTimeAuthCode
   });
 
-  return NextResponse.redirect(authorizationUri, { headers: ACTIONS_CORS_HEADERS });
+  return NextResponse.json({ code: authorizationUri })
 }

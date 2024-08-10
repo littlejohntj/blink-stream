@@ -7,14 +7,14 @@ import {
 } from "@solana/wallet-adapter-react";
 import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { TipLinkWalletAdapter } from "@tiplink/wallet-adapter";
 import type {
   SolanaSignInInput,
   SolanaSignInOutput,
 } from "@solana/wallet-standard-features";
 import { setLocalStorage } from "../utils/local-storage/local-storage";
-import { handleUserSignedInStateAndReturnFinalState } from "@/utils/user-sign-in/user-sign-in";
+import { handleUserAuthTokenExistingStateAndReturnFinalState } from "@/utils/user-sign-in/user-sign-in";
 
 
 // Default styles that can be overridden by your app
@@ -40,9 +40,9 @@ export default function AppWalletProvider({
     const autoSignIn = useCallback(
       async (adapter: Adapter) => {
 
-        const userIsSignedIn = handleUserSignedInStateAndReturnFinalState()
+        const userAuthTokenExists = handleUserAuthTokenExistingStateAndReturnFinalState()
 
-        if ( userIsSignedIn ) {
+        if ( userAuthTokenExists ) {
             return true;
         }
         
@@ -62,16 +62,43 @@ export default function AppWalletProvider({
         // @ts-ignore
           const output : SolanaSignInOutput = await adapter.signIn(fetchSignInData);
 
-          const auth = {
-              input: {},
-              output: output
-          }
+          const pkArray = new Uint8Array(output.account.publicKey)
 
+          const pk = new PublicKey(pkArray)
+
+          console.log("TIPPY FUCK UR GIRL")
+          console.log(pk.toBase58())
+
+          const oap = output.account.publicKey
+
+          const oapPk = new PublicKey(oap)
+
+
+
+          console.log(oapPk.toBase58())
+
+          // const fuckMe = output.account.address
+
+          const serialisedOutput: SolanaSignInOutput = {
+            account: {
+                ...output.account,
+                publicKey: pkArray,
+            },
+            signature: new Uint8Array(output.signature),
+            signedMessage: new Uint8Array(output.signedMessage),
+        };
+
+          const auth = {
+              input: {
+                'help': 'me'
+              },
+              output: serialisedOutput
+          }
+          
           const authString = JSON.stringify(auth)
 
           setLocalStorage("auth", authString)
 
-  
           return true
       
       },

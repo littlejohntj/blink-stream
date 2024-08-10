@@ -1,7 +1,9 @@
 import { getLocalStorage, removeLocalStorage } from "../local-storage/local-storage"
 import { verifySIWS } from "../verify-siws"
 
-export const handleUserSignedInStateAndReturnFinalState = (): boolean => {
+// I might be doing too much here
+// TBD
+export const handleUserAuthTokenExistingStateAndReturnFinalState = (): boolean => {
 
     const authString = getLocalStorage("auth")
 

@@ -1,11 +1,9 @@
 import prisma from "./prisma";
+import { StreamerData } from "./types/streamer-data";
 
-export const updateName = async ( name: string, pubkey: string ) => {
+export const updateName = async ( name: string, pubkey: string ): Promise<StreamerData> => {
 
-    // I need a way to identify what streamer we need to update via some kind of token, could just pass the pubkey to be easy
-    // Letdo it
-
-    await prisma.streamer.updateMany({
+    const streamer = await prisma.streamer.update({
         where: {
             pubkey: pubkey
         },
@@ -13,4 +11,19 @@ export const updateName = async ( name: string, pubkey: string ) => {
             name: name
         }
     })
+
+    const streamerData: StreamerData = {
+        streamerInfo: {
+            name: streamer.name != "" ? streamer.name : null
+        },
+        donationSettings: {
+            minimum: streamer.minimum
+        },
+        services: {
+            authorizedStreamlabs: streamer.accessToken != "" // an empty string would signal no auth at this point
+        }
+    }
+
+    return streamerData
+    
 }

@@ -104,3 +104,48 @@ What order does it make sense to do this in? Technically these flows should be i
 4. Frontend -> Backend
 5. Streamlabs
 
+### Sign in / Sign Out
+
+Ok I think i have a base here but now were gonna need to move to the next part of actually being signed in and stuff, i would kinda like there to be more of a state machine here
+Right now, I guess there really is an explict sign in function, so as long as that works, we should be covered, similar to sign out
+So maybe i can just go back to the page load vibe and make sure that works
+But i really do feel like I have that so maybe were good
+What I guess i need to figure out though, is do we have to couple sign in to other logic, like hitting the backend for data
+If we did want to do that, I would need some kind of thing where we're "signing in" but i dont think i have that
+So i guess do we just set that based on other stuff, i feel like whats gonna happen is its all gonna be more "implict" than this
+
+Here is an idea, what if i made a var about user auth state existing and being valid? but idk, i guess im worried about that? but maybe that ends up being more clear?
+
+Ok so now, I want to get data about the user and what we need to do for them to "use" the site. Here are some things im thinking of.
+What if this is a user's first time on our site, and we don't have any kind of row for them in the database. That would be something we would want to handle.
+They might also have a row, and we could want to just get the data about them for our site. We'll want all the data about them like if they've authed with streamlabs. And their name and pubkey and minimum and any other data.
+
+Good thing is all requests we make to the server should pass in these auth objects. And when they are "logged in" thats what we would need to finally make the first call. So we can have this call handle the creation of their account if needed.
+
+And then it should just return the same data either way depending on what we get. That should give us some inital data to present. 
+
+Then that would really take care of page load and frontend to backend auth model. And then we could just have to make the other apis usable again.
+
+I guess i have to make a decision on how we get this inital data about the user? But that is something that I guess would just run once. But I'm worried with all the 
+
+Almost got there but lost it. So were gonna need to do something to get this data initially. I'm guessing we could update based on things like user signed in or all the data that its made by.
+
+Then we can have that effect get called often but only run when we're not "set up" yet.
+
+We just really need that inital set up. Or we could have something in a use effect that just runs more implictly?
+
+Or we could just run it explicitly.
+
+We do need to know that there has been a "connection" made to the server. So we should request some kind of user state. I guess we could do something that would only run if the thing is null 
+
+The explict version of this would call it all seperatly but i kinda hate that. So lets make a streamer state object i guess and if its null and the user is signed in then we can make a call. 
+
+Ok i have some of the buttons and stuff in there, gotta get the rest of it ( if  anything, idr ) and then ill go to making the requests def work if they dont already and then ill go to the streamlabs part
+
+ok so we have the buttons, lets get these button api calls into a more done state with the toasts and stuff so we can move past this and do the authorize stuff
+
+ok we have the authed apis working which is really fucking cool, now we gotta do some stuff to make it look better like the spinners and shit when its updating and disabling stuff but to keep more core to functionality i wana get the streamlabs auth working again
+
+for that i gotta design that flow where we gotta use the auth token to then get a new token that can then be used to update the value, it really is kinda that simple though i think, i can probably just take the value we have, hash it with maybe the time or a random value to create a "one use", pass that as the state, and double check it on the callback
+
+this then means i either need an api that returns this value or an api that does the redirect, idk which is better i guess?
