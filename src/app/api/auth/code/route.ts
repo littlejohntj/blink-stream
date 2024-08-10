@@ -22,6 +22,8 @@ export async function GET( request: Request ) {
   }
 
   // create the one time code for state
+
+  console.log(authorizedStreamerPubkey)
   
   const oneTimeAuthCode = await createAndUpdateAuthCode(authorizedStreamerPubkey)
 

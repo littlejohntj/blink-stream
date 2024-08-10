@@ -40,7 +40,8 @@ export async function GET(request: Request) {
                 accessToken: '',
                 pubkey: authorizedStreamerPubkey,
                 name: '',
-                minimum: 0.01
+                minimum: 0.01,
+                authCode: ''
             }
         })
     } else {

@@ -149,3 +149,20 @@ ok we have the authed apis working which is really fucking cool, now we gotta do
 for that i gotta design that flow where we gotta use the auth token to then get a new token that can then be used to update the value, it really is kinda that simple though i think, i can probably just take the value we have, hash it with maybe the time or a random value to create a "one use", pass that as the state, and double check it on the callback
 
 this then means i either need an api that returns this value or an api that does the redirect, idk which is better i guess?
+
+we kinda have this cooking, we def need to
+1. make sure were actually handling bad states
+2. are actually generating the code and add it to the database
+
+some of the code was def a lil hacky so i just want to make sure were really using an acurate state
+
+
+
+to use the real state, we def need to be adding and checking it in the database, so i can first make sure im generating it and then using it
+
+
+to also handle bad state, i want to make sure for some of the redirect things im redirecting back to a screen where we can at least recover
+
+ok now im making real hashes, lets now check the hash
+
+ok i'm kinda ok with how the access token stuff works now

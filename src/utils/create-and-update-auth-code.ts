@@ -1,19 +1,27 @@
+import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import prisma from "./prisma"
+import { createHash } from 'crypto';
+
 
 export const createAndUpdateAuthCode = async ( pubkey: string ): Promise<string> => {
 
     const authSecret = process.env.STREAMLABS_AUTH_SECRET!
-    const oneTimeCode = "abcdefg"
+    const randomPubkeyString = Keypair.generate().publicKey.toBase58()
+    const concatenatedString = `${authSecret}|${randomPubkeyString}|${pubkey}`;
 
-    // create the code using the pubkey, the secret, and some kind of random sting
+    const hash = createHash('sha256')
+
+    hash.update(concatenatedString);
+
+    const oneTimeCode = hash.digest('hex');
     
-    // prisma.streamer.update({
-    //     where: {
-    //         pubkey: pubkey
-    //     }, data: {
-
-    //     }
-    // })
+    await prisma.streamer.update({
+        where: {
+            pubkey: pubkey
+        }, data: {
+            authCode: oneTimeCode
+        }
+    })
 
     return oneTimeCode
 
