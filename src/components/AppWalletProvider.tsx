@@ -66,7 +66,7 @@ export default function AppWalletProvider({
 
           const pk = new PublicKey(pkArray)
 
-          console.log("TIPPY FUCK UR GIRL")
+          console.log("LOOK HERE TEEJ")
           console.log(pk.toBase58())
 
           const oap = output.account.publicKey
@@ -87,6 +87,8 @@ export default function AppWalletProvider({
             signature: new Uint8Array(output.signature),
             signedMessage: new Uint8Array(output.signedMessage),
         };
+
+        console.log(output.account)
 
           const auth = {
               input: {
