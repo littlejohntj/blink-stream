@@ -171,3 +171,8 @@ now lets just make sure were not totally failing on the error stuff end to end a
 
 we also have to actually make sure were gettinga correct verify with a siws
 
+
+ok now we gotta
+
+1. do verify for siws
+2. handle button states for different auth and data states

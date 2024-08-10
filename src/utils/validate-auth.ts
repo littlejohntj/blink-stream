@@ -8,20 +8,17 @@ export const validateAuth = async ( authString: string ): Promise<string> => {
 
     const authToken = authString.split(' ')[1]
     const auth = JSON.parse(authToken)
-    const authOutputAccoutPubkeyData: Uint8Array = Uint8Array.from(auth.output.account.publicKey)
-    const fuck: [string: number] = auth.output.account.publicKey
+    const pubkeyBytesDict: [string: number] = auth.output.account.publicKey
     
-    var numarr: number[] = []
+    var byteArray: number[] = []
 
-    for ( const f in fuck ) {
-        numarr.push(fuck[f])
+    for ( const byteIndex in pubkeyBytesDict ) {
+        byteArray.push(pubkeyBytesDict[byteIndex])
     }
 
-    const numinarr: Uint8Array = Uint8Array.from(numarr)
+    const pubkeyByteArray: Uint8Array = Uint8Array.from(byteArray)
 
-    console.log(numinarr)
-
-    const pubkey = new PublicKey(numinarr)
+    const pubkey = new PublicKey(pubkeyByteArray)
     return pubkey.toBase58()
 
 }

@@ -6,9 +6,10 @@ import { handleUserAuthTokenExistingStateAndReturnFinalState, handleUserSignOut 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { GoogleViaTipLinkWalletName } from "@tiplink/wallet-adapter";
 import { useCallback, useEffect, useState } from "react";
-import { AUTHORIZE_STREAMLABS_BUTTON_LABEL, MINIMUM_UPDATED_FAILED_TOAST_MESSAGE, MINIMUM_UPDATED_SUCCESS_TOAST_MESSAGE, NAME_UPDATED_FAILED_TOAST_MESSAGE, NAME_UPDATED_SUCCESS_TOAST_MESSAGE, SIGN_OUT_BUTTON_LABEL, STREAMLABS_AUTH_FAILED_MESSAGE, UPDATE_MINIMUM_BUTTON_LABEL, UPDATE_MINIMUM_PLACEHOLDER_LABEL, UPDATE_NAME_BUTTON_LABEL, UPDATE_NAME_PLACEHOLDER_LABEL } from "./constants";
+import { AUTHORIZE_STREAMLABS_BUTTON_LABEL, BLINK_URL_COPIED_INFO_MESSAGE, BLINK_URL_FAILED_TO_COPY_MESSAGE, COPY_BLINK_BUTTON_LABEL, MINIMUM_UPDATED_FAILED_TOAST_MESSAGE, MINIMUM_UPDATED_SUCCESS_TOAST_MESSAGE, NAME_UPDATED_FAILED_TOAST_MESSAGE, NAME_UPDATED_SUCCESS_TOAST_MESSAGE, SIGN_IN_BUTTON_LABEL, SIGN_OUT_BUTTON_LABEL, STREAMLABS_AUTH_FAILED_MESSAGE, UPDATE_MINIMUM_BUTTON_LABEL, UPDATE_MINIMUM_PLACEHOLDER_LABEL, UPDATE_NAME_BUTTON_LABEL, UPDATE_NAME_PLACEHOLDER_LABEL } from "./constants";
 import { AlertState, AlertType } from "@/utils/types/alert-state";
 import AlertToast from "@/components/toasts/AlertToast";
+import { blinkUrl } from "@/utils/blink-url";
 
 export default function UserPage() {
 
@@ -217,6 +218,25 @@ export default function UserPage() {
 
     }
 
+    const copyBlickButtonClicked = () => {
+        const blinkUrlText = blinkUrl(publicKey!.toBase58());
+        navigator.clipboard.writeText(blinkUrlText)
+            .then(() => {
+                setAlertState({
+                    type: AlertType.INFO,
+                    message: BLINK_URL_COPIED_INFO_MESSAGE
+                })
+                setTimeout(() => setAlertState(null), 2000);
+            })
+            .catch((err) => {
+                setAlertState({
+                    type: AlertType.ERROR,
+                    message: BLINK_URL_FAILED_TO_COPY_MESSAGE
+                })
+                setTimeout(() => setAlertState(null), 2000);
+            })
+    }
+
     return (
         <main>
             { userSignedInState ?
@@ -226,7 +246,7 @@ export default function UserPage() {
                         <button
                         className="btn btn-primary"
                         onClick={authorizeStreamlabs}
-                        disabled={false}
+                        disabled={streamerData?.services.authorizedStreamlabs ?? false}
                         >
                             {AUTHORIZE_STREAMLABS_BUTTON_LABEL}
                         </button>
@@ -236,12 +256,12 @@ export default function UserPage() {
                         placeholder={UPDATE_NAME_PLACEHOLDER_LABEL}
                         value={streamerNameTextInput}
                         onChange={handleStreamerNameTextInputChange}
-                        disabled={false}>
+                        disabled={streamerNameIsUpdating}>
                         </input>
                         <button
                         className="btn btn-primary"
                         onClick={updateName}
-                        disabled={false}
+                        disabled={streamerNameIsUpdating || ( streamerNameTextInput == streamerNameTextInputSourceOfTrust )}
                         >
                             {UPDATE_NAME_BUTTON_LABEL}
                         </button>
@@ -251,20 +271,26 @@ export default function UserPage() {
                         placeholder={UPDATE_MINIMUM_PLACEHOLDER_LABEL}
                         value={streamerMinimumNumberInput}
                         onChange={handleStreamerMinimumNumberInputChange}
-                        disabled={false}>
+                        disabled={streamerMinimumIsUpdating}>
                         </input>
                         <button
                         className="btn btn-primary"
                         onClick={updateMinimum}
-                        disabled={false}
+                        disabled={streamerMinimumIsUpdating || ( streamerMinimumNumberInput == streamerMinimumNumberInputSourceOfTruth )}
                         >
                             {UPDATE_MINIMUM_BUTTON_LABEL}
                         </button>
                         <button
                         className="btn btn-primary"
+                        onClick={copyBlickButtonClicked}
+                        >
+                            {COPY_BLINK_BUTTON_LABEL}
+                        </button>
+                        <button
+                        className="btn btn-primary"
                         onClick={ async () => { await signOutUserClicked() }  }
                         >
-                            Sign Out
+                            {SIGN_OUT_BUTTON_LABEL}
                         </button>
                     </div>
                 )
@@ -276,7 +302,7 @@ export default function UserPage() {
                         className="btn btn-primary"
                         onClick={ async () => { void signInUserClicked() } }
                         >
-                            {SIGN_OUT_BUTTON_LABEL}
+                            {SIGN_IN_BUTTON_LABEL}
                         </button>
                     </div>
                 )
