@@ -166,3 +166,8 @@ to also handle bad state, i want to make sure for some of the redirect things im
 ok now im making real hashes, lets now check the hash
 
 ok i'm kinda ok with how the access token stuff works now
+
+now lets just make sure were not totally failing on the error stuff end to end and we should be okay
+
+we also have to actually make sure were gettinga correct verify with a siws
+

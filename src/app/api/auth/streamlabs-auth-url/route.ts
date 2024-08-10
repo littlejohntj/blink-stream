@@ -34,5 +34,5 @@ export async function GET( request: Request ) {
     state: oneTimeAuthCode
   });
 
-  return NextResponse.json({ code: authorizationUri })
+  return NextResponse.json({ authUrl: authorizationUri })
 }
