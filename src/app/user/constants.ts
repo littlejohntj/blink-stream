@@ -19,3 +19,5 @@ export const MINIMUM_UPDATED_FAILED_TOAST_MESSAGE = "Failed to update minimum."
 export const STREAMLABS_AUTH_FAILED_MESSAGE = "Failed to authorize with streamlabs."
 export const BLINK_URL_COPIED_INFO_MESSAGE = "Copied your blink url to your clipboard."
 export const BLINK_URL_FAILED_TO_COPY_MESSAGE = "Failed to copy your blink url to the clipbaord."
+
+export const COULD_NOT_FETCH_STREAMER_MESSAGE = "Could not get the infomation for your account. Please contact support."

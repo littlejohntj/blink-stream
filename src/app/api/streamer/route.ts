@@ -9,10 +9,16 @@ export async function GET(request: Request) {
     try {
         authorizedStreamerPubkey = await validateRequestHeadersAndReturnPubkey(request)
     } catch (error) {
-        return NextResponse.json({ error: error }, { status: 401 })
+        return NextResponse.json({ error: "Bad request. Not authorized." }, { status: 401 })
     }
 
-    const streamerData = await findOrCreateStreamer(authorizedStreamerPubkey)
+    let streamerData;
+
+    try {
+        streamerData = await findOrCreateStreamer(authorizedStreamerPubkey)
+    } catch {
+        return NextResponse.json({ error: "Could not fetch or create the user." }, { status: 500 })
+    } 
 
     return NextResponse.json(streamerData);
 }

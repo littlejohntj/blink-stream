@@ -10,7 +10,10 @@
 
 ### Need to have
 - Outline the full set up flow
-- Make the apis for the front end permissioned
+- Handle request flows better and add more specifc request errors and then handle those
+- Make it work with current unfurling logic, were using stuff that's too new
+- Get to a better "base" ui that i can at least apply with
+- Set up the domaine
 
 ### Nice to have
 - Message filtering
@@ -62,3 +65,4 @@
 - Frontend -> Backend request flow ( how the frontend makes requests to the backend to modify state )
 - Streamlabs auth flow ( how the user goes and gets a stream labs acess token )
 - On page load flow ( determins if the user is log in and what state to show )
+

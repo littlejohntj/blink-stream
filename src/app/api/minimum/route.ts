@@ -10,8 +10,7 @@ export async function POST(request: Request) {
     const minimumString = requestUrl.searchParams.get("minimum")
 
     if ( minimumString == null ) {
-        // bad request
-        return NextResponse.json({ error: 'No auth.' }, { status: 401 }); 
+        return NextResponse.json({ error: 'Bad request. Need minimum query parameter' }, { status: 400 }); 
     }
 
     const minimum = parseFloat(minimumString);
@@ -21,13 +20,17 @@ export async function POST(request: Request) {
     try {
         authorizedStreamerPubkey = await validateRequestHeadersAndReturnPubkey(request)
     } catch (error) {
-        return NextResponse.json({ error: error }, { status: 401 })
+        return NextResponse.json({ error: "Bad request. Not authorized." }, { status: 401 })
     }
 
-    const streamerData = await updateMinimum(minimum, authorizedStreamerPubkey)
+    let streamerData;
+
+    try {
+        streamerData = await updateMinimum(minimum, authorizedStreamerPubkey)
+    } catch {
+        return NextResponse.json({ error: "Could not update the name." }, { status: 500 })
+    } 
 
     return NextResponse.json(streamerData, { status: 200 });
-
-
     
 }

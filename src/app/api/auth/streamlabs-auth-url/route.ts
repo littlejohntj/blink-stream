@@ -13,14 +13,20 @@ export async function GET( request: Request ) {
     } catch (error) {
         return NextResponse.json({ error: error }, { status: 401 })
     }
-  
-    const oneTimeAuthCode = await createAndUpdateAuthCode(authorizedStreamerPubkey)
 
-    const authorizationUri = await streamlabsOAuth.authorizationCode.getAuthorizeUri({
-        redirectUri,
-        scope: scopes,
-        state: oneTimeAuthCode
-    });
+    let authorizationUri;
+
+    try {
+        const oneTimeAuthCode = await createAndUpdateAuthCode(authorizedStreamerPubkey)
+        authorizationUri = await streamlabsOAuth.authorizationCode.getAuthorizeUri({
+            redirectUri,
+            scope: scopes,
+            state: oneTimeAuthCode
+        });
+    } catch {
+        return NextResponse.json({ error: "Couldn't start auth process." }, { status: 500 })
+    }
 
     return NextResponse.json({ authUrl: authorizationUri })
+    
 }
