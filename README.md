@@ -10,13 +10,12 @@
 
 ### Need to have
 - Outline the full set up flow
-- Handle request flows better and add more specifc request errors and then handle those
 - Make it work with current unfurling logic, were using stuff that's too new
 - Get to a better "base" ui that i can at least apply with
 - Set up the domaine
 
 ### Nice to have
-- Message filtering
+- Have different pages for "landing" and "app"
 - Build in "levels of confusing" modes ie. Just message + Send $1 vs.  All the tokens appearing
 - Let streamers set their donation amount and token
 - Let streamer pick a token to receive
