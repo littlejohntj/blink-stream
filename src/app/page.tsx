@@ -360,7 +360,7 @@ export default function Home() {
                             <div className="hero bg-base-200 min-h-screen">
                                 <div className="hero-content text-center">
                                     <div className="max-w-md">
-                                    <h1 className="w-full text-5xl font-bold ">Solana-Powered Stream Alerts</h1>
+                                    <h1 className="w-full text-5xl font-bold ">Solana Powered Stream Alerts</h1>
                                     <p className="py-6">
                                     Blurt.gg integrates Solana transactions directly into your stream, triggering real-time alerts that keep your audience engaged.
                                     </p>
