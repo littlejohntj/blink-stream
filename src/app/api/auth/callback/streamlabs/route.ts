@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { streamlabsOAuth, redirectUri } from '@/utils/streamlabsOAuth';
-import { updateStreamlabsAccessToken } from '@/utils/update-streamlabs-access-token';
+import { updateStreamlabsAccessToken } from '@/utils/backend/update-streamlabs-access-token';
 
 export async function GET(request: Request) {
     const url = new URL(request.url);

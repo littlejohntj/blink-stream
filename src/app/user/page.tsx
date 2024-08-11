@@ -1,15 +1,15 @@
 "use client";
 
-import { getLocalStorage } from "@/utils/local-storage/local-storage";
-import { StreamerData } from "@/utils/types/streamer-data";
-import { handleUserAuthTokenExistingStateAndReturnFinalState, handleUserSignOut } from "@/utils/user-sign-in/user-sign-in";
+import { getLocalStorage } from "@/utils/frontend/local-storage";
+import { StreamerData } from "@/utils/shared/types/streamer-data";
+import { handleUserAuthTokenExistingStateAndReturnFinalState, handleUserSignOut } from "@/utils/frontend/user-sign-in/user-sign-in";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { GoogleViaTipLinkWalletName } from "@tiplink/wallet-adapter";
 import { useCallback, useEffect, useState } from "react";
 import { AUTHORIZE_STREAMLABS_BUTTON_LABEL, BLINK_URL_COPIED_INFO_MESSAGE, BLINK_URL_FAILED_TO_COPY_MESSAGE, COPY_BLINK_BUTTON_LABEL, MINIMUM_UPDATED_FAILED_TOAST_MESSAGE, MINIMUM_UPDATED_SUCCESS_TOAST_MESSAGE, NAME_UPDATED_FAILED_TOAST_MESSAGE, NAME_UPDATED_SUCCESS_TOAST_MESSAGE, SIGN_IN_BUTTON_LABEL, SIGN_OUT_BUTTON_LABEL, STREAMLABS_AUTH_FAILED_MESSAGE, UPDATE_MINIMUM_BUTTON_LABEL, UPDATE_MINIMUM_PLACEHOLDER_LABEL, UPDATE_NAME_BUTTON_LABEL, UPDATE_NAME_PLACEHOLDER_LABEL } from "./constants";
-import { AlertState, AlertType } from "@/utils/types/alert-state";
+import { AlertState, AlertType } from "@/utils/shared/types/alert-state";
 import AlertToast from "@/components/toasts/AlertToast";
-import { blinkUrl } from "@/utils/blink-url";
+import { blinkUrl } from "@/utils/shared/blink-url";
 
 export default function UserPage() {
 

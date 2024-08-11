@@ -176,3 +176,17 @@ ok now we gotta
 
 1. do verify for siws
 2. handle button states for different auth and data states
+
+ok so the next thing to do that makes sense is handle things like bad auth response and do things like make the user sign back in or something
+
+if you had a bad auth you'd probably want that
+
+that would also get me towards a consistant way to handle this stuff
+
+so a few opportunties
+
+1. handle from a prisma streamer result into a streamerdata object and reuse that
+2. handle different bad auth responses cause a user to log out basically
+  - things like 500 codes probably wouldnt log you out though
+3. handle general auth checking and respons could probably be consolidated
+4. kinda seperate but with these new methods we also need to make sure were handling all the correct values and inputs for those on the F.E. too

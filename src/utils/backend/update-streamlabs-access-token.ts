@@ -1,4 +1,4 @@
-import prisma from "./prisma"
+import prisma from "./backend/prisma"
 
 export const updateStreamlabsAccessToken = async ( oneTimeCode: string, accessToken: string ) => {
 

@@ -1,5 +1,5 @@
-import { getLocalStorage, removeLocalStorage } from "../local-storage/local-storage"
-import { verifySIWS } from "../verify-siws"
+import { getLocalStorage, removeLocalStorage } from "../local-storage"
+import { verifySIWS } from "../../backend/verify-siws"
 
 // I might be doing too much here
 // TBD

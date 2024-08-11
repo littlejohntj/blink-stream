@@ -1,14 +1,14 @@
 import prisma from "./prisma";
-import { StreamerData } from "./types/streamer-data";
+import { StreamerData } from "../shared/types/streamer-data";
 
-export const updateName = async ( name: string, pubkey: string ): Promise<StreamerData> => {
+export const updateMinimum = async ( minimum: number, pubkey: string ): Promise<StreamerData> => {
 
     const streamer = await prisma.streamer.update({
         where: {
             pubkey: pubkey
         },
         data: {
-            name: name
+            minimum: minimum
         }
     })
 
@@ -25,5 +25,4 @@ export const updateName = async ( name: string, pubkey: string ): Promise<Stream
     }
 
     return streamerData
-    
 }

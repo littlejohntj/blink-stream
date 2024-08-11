@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { filterMessage } from '../../../utils/filter-message'
+import { filterMessage } from '../../../utils/backend/filter-message'
 import axios from 'axios';
 
 export async function GET() {

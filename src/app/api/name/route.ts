@@ -1,5 +1,5 @@
-import { updateName } from '@/utils/update-name';
-import { validateAuth } from '@/utils/validate-auth';
+import { updateName } from '@/utils/backend/update-name';
+import { validateAuth } from '@/utils/backend/validate-auth';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {

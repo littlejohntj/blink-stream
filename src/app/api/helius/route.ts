@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as bs58 from 'bs58';
 import axios from 'axios';
-import prisma from '../../../utils/prisma'
+import prisma from '../../../utils/backend/prisma'
 import { displayStringForTokenString } from '@/utils/supported-tokens';
 
 export async function POST(request: Request) {

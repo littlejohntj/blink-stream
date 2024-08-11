@@ -1,4 +1,4 @@
-import { AlertState, AlertType } from '../../utils/types/alert-state'; // Assuming these types are defined in a types file
+import { AlertState, AlertType } from '../../utils/shared/types/alert-state'; // Assuming these types are defined in a types file
 
 interface AlertToastProps {
     alertState: AlertState;

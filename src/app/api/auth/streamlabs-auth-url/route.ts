@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { streamlabsOAuth, scopes, redirectUri } from '@/utils/streamlabsOAuth';
-import { validateAuth } from '@/utils/validate-auth';
-import { createAndUpdateAuthCode } from '@/utils/create-and-update-auth-code';
+import { validateAuth } from '@/utils/backend/validate-auth';
+import { createAndUpdateAuthCode } from '@/utils//backend/create-and-update-auth-code';
 import { ACTIONS_CORS_HEADERS } from '@solana/actions';
 
 export async function GET( request: Request ) {

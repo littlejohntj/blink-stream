@@ -13,8 +13,8 @@ import type {
   SolanaSignInInput,
   SolanaSignInOutput,
 } from "@solana/wallet-standard-features";
-import { setLocalStorage } from "../utils/local-storage/local-storage";
-import { handleUserAuthTokenExistingStateAndReturnFinalState } from "@/utils/user-sign-in/user-sign-in";
+import { setLocalStorage } from "../utils/frontend/local-storage";
+import { handleUserAuthTokenExistingStateAndReturnFinalState } from "@/utils/frontend/user-sign-in/user-sign-in";
 
 
 // Default styles that can be overridden by your app

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { filterMessage } from '../../../utils/filter-message'
+import { filterMessage } from '../../../utils/backend/filter-message'
 import axios from 'axios';
 import { validateAuth } from '@/utils/validate-auth';
-import prisma from '@/utils/prisma';
-import { StreamerData } from '@/utils/types/streamer-data';
+import prisma from '@/utils/backend/prisma';
+import { StreamerData } from '@/utils/shared/types/streamer-data';
 
 export async function GET(request: Request) {
 
