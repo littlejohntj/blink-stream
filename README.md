@@ -185,7 +185,6 @@ that would also get me towards a consistant way to handle this stuff
 
 so a few opportunties
 
-1. handle from a prisma streamer result into a streamerdata object and reuse that
 2. handle different bad auth responses cause a user to log out basically
   - things like 500 codes probably wouldnt log you out though
 3. handle general auth checking and respons could probably be consolidated

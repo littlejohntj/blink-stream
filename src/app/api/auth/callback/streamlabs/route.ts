@@ -3,13 +3,12 @@ import { streamlabsOAuth, redirectUri } from '@/utils/streamlabsOAuth';
 import { updateStreamlabsAccessToken } from '@/utils/backend/update-streamlabs-access-token';
 
 export async function GET(request: Request) {
-    const url = new URL(request.url);
-
-    const code = url.searchParams.get('code');
-    const oneTimeAuthCode = url.searchParams.get('state');
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
+    const url = new URL(request.url);
+    const code = url.searchParams.get('code');
+    const oneTimeAuthCode = url.searchParams.get('state');
     
     if (!code || !oneTimeAuthCode) {
         // We should probably make a failed to auth with streamlabs thing here

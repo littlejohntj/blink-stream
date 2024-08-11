@@ -1,4 +1,4 @@
-import prisma from "./backend/prisma"
+import prisma from "./prisma"
 
 export const streamerInfo = async ( pubkey: string ): Promise<{ name: string, pubkey: string, minimum: number } | null> => {
 

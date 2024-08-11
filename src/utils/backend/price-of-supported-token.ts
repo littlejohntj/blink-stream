@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { jupTokenIdForSupportedToken, SupportedToken } from '../supported-tokens';
+import { jupTokenIdForSupportedToken, SupportedToken } from '../shared/supported-tokens';
 
 export async function priceOfSupportedToken( supportedToken : SupportedToken): Promise<number> {
     try {

@@ -1,5 +1,6 @@
-import prisma from "./backend/prisma";
-import { StreamerData } from "./types/streamer-data";
+import prisma from "./prisma";
+import { StreamerData } from "../shared/types/streamer-data";
+import { streamerDataFromPrismaStreamer } from "./streamer-data-from-prisma-streamer";
 
 export const updateName = async ( name: string, pubkey: string ): Promise<StreamerData> => {
 
@@ -12,17 +13,7 @@ export const updateName = async ( name: string, pubkey: string ): Promise<Stream
         }
     })
 
-    const streamerData: StreamerData = {
-        streamerInfo: {
-            name: streamer.name != "" ? streamer.name : null
-        },
-        donationSettings: {
-            minimum: streamer.minimum
-        },
-        services: {
-            authorizedStreamlabs: streamer.accessToken != "" // an empty string would signal no auth at this point
-        }
-    }
+    const streamerData = streamerDataFromPrismaStreamer(streamer)
 
     return streamerData
     
