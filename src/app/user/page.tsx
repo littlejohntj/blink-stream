@@ -246,68 +246,85 @@ export default function UserPage() {
             { userSignedInState ?
                 (
                     <div>
-                        <h1>User is signed in</h1>
-                        <button
-                        className="btn btn-primary"
-                        onClick={authorizeStreamlabs}
-                        disabled={streamerData?.services.authorizedStreamlabs ?? false}
-                        >
-                            {AUTHORIZE_STREAMLABS_BUTTON_LABEL}
-                        </button>
-                        <input
-                        className="input input-bordered input-primary"
-                        type="text"
-                        placeholder={UPDATE_NAME_PLACEHOLDER_LABEL}
-                        value={streamerNameTextInput}
-                        onChange={handleStreamerNameTextInputChange}
-                        disabled={streamerNameIsUpdating}>
-                        </input>
-                        <button
-                        className="btn btn-primary"
-                        onClick={updateName}
-                        disabled={streamerNameIsUpdating || ( streamerNameTextInput == streamerNameTextInputSourceOfTrust )}
-                        >
-                            {UPDATE_NAME_BUTTON_LABEL}
-                        </button>
-                        <input
-                        className="input input-bordered input-primary"
-                        type="number"
-                        placeholder={UPDATE_MINIMUM_PLACEHOLDER_LABEL}
-                        value={streamerMinimumNumberInput}
-                        onChange={handleStreamerMinimumNumberInputChange}
-                        disabled={streamerMinimumIsUpdating}>
-                        </input>
-                        <button
-                        className="btn btn-primary"
-                        onClick={updateMinimum}
-                        disabled={streamerMinimumIsUpdating || ( streamerMinimumNumberInput == streamerMinimumNumberInputSourceOfTruth )}
-                        >
-                            {UPDATE_MINIMUM_BUTTON_LABEL}
-                        </button>
-                        <button
-                        className="btn btn-primary"
-                        onClick={copyBlickButtonClicked}
-                        >
-                            {COPY_BLINK_BUTTON_LABEL}
-                        </button>
-                        <button
-                        className="btn btn-primary"
-                        onClick={ async () => { await signOutUserClicked() }  }
-                        >
-                            {SIGN_OUT_BUTTON_LABEL}
-                        </button>
+                        <div>
+                            <h1>User is signed in</h1>
+                        </div>
+                        <div>
+                            <button
+                            className="btn btn-primary"
+                            onClick={authorizeStreamlabs}
+                            disabled={streamerData?.services.authorizedStreamlabs ?? false}
+                            >
+                                {AUTHORIZE_STREAMLABS_BUTTON_LABEL}
+                            </button>
+                            
+                        </div>
+                        <div>
+                            <input
+                            className="input input-bordered input-primary"
+                            type="text"
+                            placeholder={UPDATE_NAME_PLACEHOLDER_LABEL}
+                            value={streamerNameTextInput}
+                            onChange={handleStreamerNameTextInputChange}
+                            disabled={streamerNameIsUpdating}>
+                            </input>
+                            <button
+                            className="btn btn-primary"
+                            onClick={updateName}
+                            disabled={streamerNameIsUpdating || ( streamerNameTextInput == streamerNameTextInputSourceOfTrust )}
+                            >
+                                {UPDATE_NAME_BUTTON_LABEL}
+                            </button>
+                        </div>
+                        <div>
+                            <input
+                            className="input input-bordered input-primary"
+                            type="number"
+                            placeholder={UPDATE_MINIMUM_PLACEHOLDER_LABEL}
+                            value={streamerMinimumNumberInput}
+                            onChange={handleStreamerMinimumNumberInputChange}
+                            disabled={streamerMinimumIsUpdating}>
+                            </input>
+                            <button
+                            className="btn btn-primary"
+                            onClick={updateMinimum}
+                            disabled={streamerMinimumIsUpdating || ( streamerMinimumNumberInput == streamerMinimumNumberInputSourceOfTruth )}
+                            >
+                                {UPDATE_MINIMUM_BUTTON_LABEL}
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                            className="btn btn-primary"
+                            onClick={copyBlickButtonClicked}
+                            >
+                                {COPY_BLINK_BUTTON_LABEL}
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                            className="btn btn-primary"
+                            onClick={ async () => { await signOutUserClicked() }  }
+                            >
+                                {SIGN_OUT_BUTTON_LABEL}
+                            </button>
+                        </div>
                     </div>
                 )
                 :
                 (
                     <div>
-                        <h1>User is not signed in</h1> 
-                        <button 
-                        className="btn btn-primary"
-                        onClick={ async () => { void signInUserClicked() } }
-                        >
-                            {SIGN_IN_BUTTON_LABEL}
-                        </button>
+                        <div>
+                            <h1>User is not signed in</h1> 
+                        </div>
+                        <div>
+                            <button 
+                            className="btn btn-primary"
+                            onClick={ async () => { void signInUserClicked() } }
+                            >
+                                {SIGN_IN_BUTTON_LABEL}
+                            </button>
+                        </div>
                     </div>
                 )
             }
