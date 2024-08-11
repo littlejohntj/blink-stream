@@ -2,7 +2,7 @@ import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { addMemo, createMintWithAssociatedToken, CreateTokenIfMissingInstructionAccounts, CreateTokenIfMissingInstructionData, findAssociatedTokenPda, getSplTokenProgram, SPL_TOKEN_PROGRAM_ID, transferSol, transferTokensChecked, TransferTokensCheckedInstructionAccounts, TransferTokensCheckedInstructionData } from '@metaplex-foundation/mpl-toolbox'
 import { publicKey, PublicKey, Signer, signerIdentity, sol, Transaction, transactionBuilder } from '@metaplex-foundation/umi'
 import { mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
-import { decimalsForSupportedSplToken, SupportedSplToken, tokenMintAddressForSupportedSplToken } from './supported-tokens'
+import { decimalsForSupportedSplToken, SupportedSplToken, tokenMintAddressForSupportedSplToken } from '../shared/supported-tokens'
 import { createTokenIfMissing } from '@metaplex-foundation/mpl-toolbox'
 
 export const donateSplTransaction = async ( source: Signer, destination: PublicKey, message: string, name: string, amount: number, token: SupportedSplToken ): Promise<Transaction> => {

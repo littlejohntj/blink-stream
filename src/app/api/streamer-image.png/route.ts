@@ -1,4 +1,4 @@
-import { streamerInfo } from '@/utils/streamer-info';
+import { streamerInfo } from '@/utils/backend/streamer-info';
 import { NextResponse } from 'next/server';
 import sharp from 'sharp';
 

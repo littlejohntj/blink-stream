@@ -10,10 +10,12 @@
 
 ### Need to have
 - Outline the full set up flow
-- Make the apis for the front end permissioned
+- Make it work with current unfurling logic, were using stuff that's too new
+- Get to a better "base" ui that i can at least apply with
+- Set up the domaine
 
 ### Nice to have
-- Message filtering
+- Have different pages for "landing" and "app"
 - Build in "levels of confusing" modes ie. Just message + Send $1 vs.  All the tokens appearing
 - Let streamers set their donation amount and token
 - Let streamer pick a token to receive
@@ -55,3 +57,11 @@
 - How to Works ( Sequence Diagrams )
 - Env File
 - Video Demo
+
+### Auth Flows
+- Sign out flow ( how the user goes from signed in to signed out )
+- Sign in flow ( how the user goes from signed out locally to signed in )
+- Frontend -> Backend request flow ( how the frontend makes requests to the backend to modify state )
+- Streamlabs auth flow ( how the user goes and gets a stream labs acess token )
+- On page load flow ( determins if the user is log in and what state to show )
+

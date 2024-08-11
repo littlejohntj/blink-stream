@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server';
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, createPostResponse, ActionError } from '@solana/actions'
 import { createNoopSigner, publicKey, PublicKey } from '@metaplex-foundation/umi';
-import { donateSolTransaction } from '@/utils/donate-sol-transaction';
+import { donateSolTransaction } from '@/utils/backend/donate-sol-transaction';
 import { toWeb3JsTransaction } from '@metaplex-foundation/umi-web3js-adapters';
-import { streamerExists } from '@/utils/streamer-exists';
-import { truncatePubkey } from '@/utils/truncate-pubkey';
-import { donateUsdcTransaction } from '@/utils/usdc-donate-transaction';
-import { streamerInfo } from '@/utils/streamer-info';
-import { donateSplTransaction } from '@/utils/spl-donate-transaction';
-import { displayStringForTokenString, supportedSplTokenForTokenString, supportedTokenForTokenString } from '@/utils/supported-tokens';
-import { priceOfSupportedToken } from '@/utils/price-of-supported-token';
+import { truncatePubkey } from '@/utils/backend/truncate-pubkey';
+import { donateUsdcTransaction } from '@/utils/backend/usdc-donate-transaction';
+import { streamerInfo } from '@/utils/backend/streamer-info';
+import { donateSplTransaction } from '@/utils/backend/spl-donate-transaction';
+import { displayStringForTokenString, supportedSplTokenForTokenString, supportedTokenForTokenString } from '@/utils/shared/supported-tokens';
+import { priceOfSupportedToken } from '@/utils/backend/price-of-supported-token';
 import { error } from 'console';
-import { filterMessage } from '@/utils/filter-message';
+import { filterMessage } from '@/utils/backend/filter-message';
 
 export async function GET(request: Request) {
 
@@ -24,7 +23,6 @@ export async function GET(request: Request) {
         requestUrl.origin,
       ).toString();
 
-    const knownStremer = await streamerExists(toPubkey.toString())
     const streamer = await streamerInfo(toPubkey.toString())
 
     let iconUrl: string
