@@ -125,5 +125,3 @@ STREAMLABS_AUTH_SECRET - Random secret used for our auth model, can be any pubke
 - How to Works ( Sequence Diagrams )
 - Env File
 - Video Demo
-
-
