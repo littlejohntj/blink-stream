@@ -2,7 +2,7 @@
 
 ## How it Works
 
-## Demo
+### Demo
 
 ### High Level Flow
 
@@ -50,11 +50,6 @@ sequenceDiagram
 To set up a new distribution of the app and host it, you'll need your own streamlabs client id and secret. To get this you need to make an app on streamlabs and get your keys. You can follow the documentation found [here](https://dev.streamlabs.com/docs/getting-started).
 
 
-### Doc Ideas
-- How to set this up for yourself
-- Code info
-- Config stuff like env
-
 ### Setting Up Helius
 
 1. Run the script with the command `npm run pubkey` to generate a new pubkey to use for Helius Webhooks
@@ -76,6 +71,7 @@ To set up a new distribution of the app and host it, you'll need your own stream
 
 ## Env File Variables
 
+```
 STREAMLABS_CLIENT_ID - Client ID given to you from Streamlabs
 STREAMLABS_CLIENT_SECRET - Client Secret given to you from Streamlabs
 NEXT_PUBLIC_BASE_URL - The domain of your hosted app, can be localhost:3000 if you're doing this locally
@@ -85,6 +81,13 @@ HELIUS_AUTH_HEADER - Some secret string you set up on Helius to filter out trans
 DATABASE_URL - url for prisma to connect to your databse, depending on your hosting service look at prisma for details here
 OPENAI_API_KEY - API key with Open AI
 STREAMLABS_AUTH_SECRET - Random secret used for our auth model, can be any pubkey
+```
+
+## Todo
+
+### Need to have
+- Outline the full set up flow
+- Make it work with current unfurling logic, were using stuff that's too new
 
 ### Nice to have
 - Set up a devnet version for testing or for submission
@@ -95,18 +98,19 @@ STREAMLABS_AUTH_SECRET - Random secret used for our auth model, can be any pubke
 - Add token swaps from the sender token to the receiver token
 - See if we should be sending a donation post request instead of an alert
 
-
-## Todo
-
-### Need to have
-- Outline the full set up flow
-- Make it work with current unfurling logic, were using stuff that's too new
-
+### Create Issues
+- Make it friendlier to work with locally or devent
+  - Add a local sql server
 
 ### Bugs
 - Double notifactions when running locally since were using the same pubkeys for mainnet and local
 - Fails on sol transfers since there is no tokenTransfers struct in the helius response
 - Streamer name text does not render on production for the streamer image
+
+### Doc Ideas
+- How to set this up for yourself
+- Code info
+- Config stuff like env
 
 ### Branding Todos
 - Make an info page
