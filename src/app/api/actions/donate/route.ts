@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 
     if ( streamer != null ) {
 
-        iconUrl = new URL(`/api/streamer-image.png?pubkey=${toPubkey.toString()}`, requestUrl.origin).toString()
+        iconUrl = new URL("/blurt.png", requestUrl.origin).toString()
         title = `Donate to ${streamer.name}`
         description = `Donate to ${streamer.name}'s live stream and have your message be shown on screen.`
         label = "Donate label"
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     } else {
 
         // I think we should show some graphic that explains how to set up if we end up in this situation
-        iconUrl = new URL("/unknown-streamer-image.jpg", requestUrl.origin).toString()
+        iconUrl = new URL("/blurt.png", requestUrl.origin).toString()
         title = "Unknown streamer title"
         description = "Unknown streamer description"
         label = "Unknown streamer label"
