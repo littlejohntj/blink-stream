@@ -6,7 +6,7 @@ import { handleUserAuthTokenExistingStateAndReturnFinalState, handleUserSignOut 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { GoogleViaTipLinkWalletName } from "@tiplink/wallet-adapter";
 import { useCallback, useEffect, useState } from "react";
-import { AUTHORIZE_STREAMLABS_BUTTON_LABEL, BLINK_URL_COPIED_INFO_MESSAGE, BLINK_URL_FAILED_TO_COPY_MESSAGE, COPY_BLINK_BUTTON_LABEL, COULD_NOT_FETCH_STREAMER_MESSAGE, MINIMUM_UPDATED_FAILED_TOAST_MESSAGE, MINIMUM_UPDATED_SUCCESS_TOAST_MESSAGE, NAME_UPDATED_FAILED_TOAST_MESSAGE, NAME_UPDATED_SUCCESS_TOAST_MESSAGE, SIGN_IN_BUTTON_LABEL, SIGN_OUT_BUTTON_LABEL, STREAMLABS_AUTH_FAILED_MESSAGE, UPDATE_MINIMUM_BUTTON_LABEL, UPDATE_MINIMUM_PLACEHOLDER_LABEL, UPDATE_NAME_BUTTON_LABEL, UPDATE_NAME_PLACEHOLDER_LABEL } from "./user/constants";
+import { AUTHORIZE_STREAMLABS_BUTTON_LABEL, BLINK_URL_COPIED_INFO_MESSAGE, BLINK_URL_FAILED_TO_COPY_MESSAGE, COPY_BLINK_BUTTON_LABEL, COULD_NOT_FETCH_STREAMER_MESSAGE, MINIMUM_UPDATED_FAILED_TOAST_MESSAGE, MINIMUM_UPDATED_SUCCESS_TOAST_MESSAGE, NAME_UPDATED_FAILED_TOAST_MESSAGE, NAME_UPDATED_SUCCESS_TOAST_MESSAGE, LOGIN_BUTTON_LABEL, SIGN_OUT_BUTTON_LABEL, STREAMLABS_AUTH_FAILED_MESSAGE, UPDATE_MINIMUM_BUTTON_LABEL, UPDATE_MINIMUM_PLACEHOLDER_LABEL, UPDATE_NAME_BUTTON_LABEL, UPDATE_NAME_PLACEHOLDER_LABEL } from "./user/constants";
 import { AlertState, AlertType } from "@/utils/shared/types/alert-state";
 import AlertToast from "@/components/toasts/AlertToast";
 import { blinkUrl } from "@/utils/shared/blink-url";
@@ -265,12 +265,19 @@ export default function Home() {
                         
                             :
                         (
-                            <button 
-                            className="btn btn-primary"
-                            onClick={ async () => { void signInUserClicked() } }
-                            >
-                                {SIGN_IN_BUTTON_LABEL}
-                            </button>
+                            <div className="css-0">
+                                <button 
+                                    className="flex justify-center h-10 items-center rounded-lg bg-[#767FFE] py-0 pl-2.5 pr-2.5 text-base text-[#050616] shadow-[0px_0px_40px_rgba(0,0,0,0.06)] hover:bg-[#666EDD] active:bg-[#5A61D1] transition-colors duration-150 ease-linear"
+                                    onClick={async () => { await signInUserClicked() }}
+                                >
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white mr-2">
+                                        <img alt="Login with Google" className="h-7 w-7" src="/google.svg" loading="eager" />
+                                    </div>
+                                    <p className="font-bold">
+                                        {LOGIN_BUTTON_LABEL}
+                                    </p>
+                                </button>
+                            </div>
                         )
                     }
                 </div>
@@ -364,12 +371,27 @@ export default function Home() {
                                     <p className="py-6">
                                     Blurt.gg integrates Solana transactions directly into your stream, triggering real-time alerts that keep your audience engaged.
                                     </p>
-                                        <button 
-                                        className="btn btn-primary"
-                                        onClick={ async () => { void signInUserClicked() } }
-                                        >
-                                            Get Started
-                                        </button>
+                                        <div className="flex justify-center">
+                                            <button 
+                                                className="relative flex h-11 w-max cursor-pointer items-center justify-center rounded-lg bg-[#767FFE] hover:bg-[#666EDD] active:bg-[#5A61D1] transition-colors duration-150 ease-linear p-4 text-base"
+                                                onClick={async () => { await signInUserClicked() }}
+                                            >
+                                                <div className="absolute left-2.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md ">
+                                                <div className="relative h-8 w-8">
+                                                    <img 
+                                                    alt="Google icon" 
+                                                    src="google.svg" 
+                                                    className="absolute inset-0 h-full w-full"
+                                                    />
+                                                </div>
+                                                </div>
+                                                <div className="pl-9">
+                                                <h3 className="font-bold text-[#050616]">
+                                                    Sign Up with Google
+                                                </h3>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
