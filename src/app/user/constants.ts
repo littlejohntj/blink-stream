@@ -5,7 +5,7 @@ export const UPDATE_MINIMUM_BUTTON_LABEL = "Update Minimum"
 export const UPDATE_MINIMUM_PLACEHOLDER_LABEL = "What is the smallest tip you want to allow?"
 
 export const SIGN_OUT_BUTTON_LABEL = "Sign Out"
-export const SIGN_IN_BUTTON_LABEL = "Sign In"
+export const LOGIN_BUTTON_LABEL = "Login"
 
 export const COPY_BLINK_BUTTON_LABEL = "Copy Blink"
 
