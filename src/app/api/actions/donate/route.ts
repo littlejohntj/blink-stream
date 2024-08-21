@@ -67,38 +67,38 @@ export async function GET(request: Request) {
                     label: "Send Tip",
                     href: `${baseHref}&message={message}&amount={amount}&name={name}&token={token}`,
                     parameters: [
-                        {
-                            type: "radio",
-                            name: "token",
-                            label: "What token do you want to tip with?",
-                            options: [
-                                {
-                                    label: "SOL",
-                                    value: "sol",
-                                    selected: false
-                                },
-                                {
-                                    label: "USDC",
-                                    value: "usdc",
-                                    selected: true
-                                },
-                                {
-                                    label: "Bonk",
-                                    value: "bonk",
-                                    selected: true
-                                },
-                                {
-                                    label: "JUP",
-                                    value: "jup",
-                                    selected: false
-                                }
-                            ],
-                            required: true
-                        },
+                        // {
+                        //     type: "radio",
+                        //     name: "token",
+                        //     label: "What token do you want to tip with?",
+                        //     options: [
+                        //         {
+                        //             label: "SOL",
+                        //             value: "sol",
+                        //             selected: false
+                        //         },
+                        //         {
+                        //             label: "USDC",
+                        //             value: "usdc",
+                        //             selected: true
+                        //         },
+                        //         {
+                        //             label: "Bonk",
+                        //             value: "bonk",
+                        //             selected: true
+                        //         },
+                        //         {
+                        //             label: "JUP",
+                        //             value: "jup",
+                        //             selected: false
+                        //         }
+                        //     ],
+                        //     required: true
+                        // },
                         {
                             type: "number",
                             name: "amount",
-                            label: "How much of the token do you want to tip?",
+                            label: "How much USDC do you want to tip?",
                             required: true,
                             min: 0.0000001,
                             patternDescription: `Note: ${streamer!.name} requires the amount be worth at least 1 USDC to be displayed.`
@@ -229,11 +229,13 @@ function validatedQueryParams(requestUrl: URL): { toPubkey: PublicKey, amount: n
         throw "Invalid input query parameter: message";
     }
 
-    try {
-        token = requestUrl.searchParams.get("token")!
-    } catch (err) {
-        throw "Invalid input query parameter: message";
-    }
+    // try {
+    //     token = requestUrl.searchParams.get("token")!
+    // } catch (err) {
+    //     throw "Invalid input query parameter: message";
+    // }
+
+    token = 'usdc'
 
     name = requestUrl.searchParams.get("name")
   
