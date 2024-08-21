@@ -73,12 +73,6 @@ export default function AppWalletProvider({
 
           const oapPk = new PublicKey(oap)
 
-
-
-          console.log(oapPk.toBase58())
-
-          // const fuckMe = output.account.address
-
           const serialisedOutput: SolanaSignInOutput = {
             account: {
                 ...output.account,
@@ -112,9 +106,8 @@ export default function AppWalletProvider({
     const wallets = useMemo(
       () => [
         // manually add any legacy wallet adapters here
-        // new UnsafeBurnerWalletAdapter(),
         new TipLinkWalletAdapter({ 
-          title: "Name of Dapp", 
+          title: "Blurt.gg", 
           clientId: "d74d8e41-ccd0-4d74-99e6-b430c5f83e75",
           theme: "dark"  // pick between "dark"/"light"/"system"
         }),
