@@ -83,45 +83,6 @@ OPENAI_API_KEY - API key with Open AI
 STREAMLABS_AUTH_SECRET - Random secret used for our auth model, can be any pubkey
 ```
 
-## Todo
-
-### Need to have
-- Outline the full set up flow
-- Make it work with current unfurling logic, were using stuff that's too new
-
-### Nice to have
-- Set up a devnet version for testing or for submission
-- Have different pages for "landing" and "app"
-- Build in "levels of confusing" modes ie. Just message + Send $1 vs.  All the tokens appearing
-- Let streamers set their donation amount and token
-- Let streamer pick a token to receive
-- Add token swaps from the sender token to the receiver token
-- See if we should be sending a donation post request instead of an alert
-
 ### Create Issues
 - Make it friendlier to work with locally or devent
   - Add a local sql server
-
-### Bugs
-- Double notifactions when running locally since were using the same pubkeys for mainnet and local
-- Fails on sol transfers since there is no tokenTransfers struct in the helius response
-- Streamer name text does not render on production for the streamer image
-
-### Doc Ideas
-- How to set this up for yourself
-- Code info
-- Config stuff like env
-
-### Branding Todos
-- Make an info page
-- New favicon
-- Custom gif
-- Add a real domain name
-
-## Docs Outline
-- Register w/ Streamlabs
-- Setting Up Helius
-- Setting Up Database
-- How to Works ( Sequence Diagrams )
-- Env File
-- Video Demo
