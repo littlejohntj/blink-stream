@@ -108,7 +108,7 @@ export async function POST(request: Request) {
 
     const reponse = await axios.post("https://streamlabs.com/api/v2.0/alerts", {
         "type": "donation",
-        "image_href": "https://blurt.gg/coin.gif",
+        "image_href": "https://www.blurt.gg/coin.gif",
         "sound_href": `https://blios-data-collection.s3.amazonaws.com/sounds/${filename}`,
         "message": tipDescription.message,
         "user_message": `${tipDescription.name} donated ${tipDescription.amount} ${ displayStringForTokenString(tipDescription.token) }`,
