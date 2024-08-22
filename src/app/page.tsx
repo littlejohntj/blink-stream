@@ -47,7 +47,7 @@ export default function Home() {
     // Track the streamer data is set
     useEffect(() => {
 
-        if ( streamerData == null ) {
+        if ( streamerData == null && userSignedInState ) {
             // Make the request to get the data object
 
             const auth = getLocalStorage("auth")!
