@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { streamlabsOAuth, redirectUri } from '@/utils/streamlabsOAuth';
 import { updateStreamlabsAccessToken } from '@/utils/backend/update-streamlabs-access-token';
+import prisma from '@/utils/backend/prisma';
 
 export async function GET(request: Request) {
 
@@ -22,7 +23,20 @@ export async function GET(request: Request) {
             redirectUri,
         });
 
-        await updateStreamlabsAccessToken(oneTimeAuthCode, accessToken)
+        const streamer = await prisma.streamer.findFirst({
+            where: {
+                authCode: oneTimeAuthCode
+            }
+        })
+
+        if ( streamer == null ) {
+            // TODO: Fail
+            return NextResponse.redirect(`${baseUrl}/`);
+        }
+
+        const pubkey = streamer.pubkey
+
+        await updateStreamlabsAccessToken(pubkey, oneTimeAuthCode, accessToken)
         
         return NextResponse.redirect(`${baseUrl}/`);
 
