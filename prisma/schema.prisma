@@ -22,5 +22,5 @@ model Streamer {
   accessToken   String      @db.VarChar(1500)
   name          String      @db.VarChar(255)
   minimum       Int        
-  authCode      String      @unique
+  authCode      String      
 }

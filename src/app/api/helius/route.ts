@@ -7,6 +7,7 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
 import { writeFile } from "fs/promises";
+import AWS from 'aws-sdk';
 
 export async function POST(request: Request) {
 
@@ -57,22 +58,58 @@ export async function POST(request: Request) {
         const filename = `${Date.now()}.mp3`
     
         // console.log(filename)
+
+        const s3 = new AWS.S3({
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            region: process.env.AWS_REGION, // e.g., 'us-east-1'
+        });
     
-        try {
-            await writeFile(
-              path.join(process.cwd(), "public/sounds/" + filename),
-              buffer
-            );
-        } catch (error) {
-            console.log("Error occured ", error);
-            return NextResponse.json({ Message: "Failed", status: 500 });
+        const params = {
+            Bucket: process.env.AWS_S3_BUCKET_NAME,
+            Key: `sounds/${filename}`, // e.g., 'uploads/my-image.jpg'
+            Expires: 60 * 5, // URL expiration time in seconds
+            ContentType: 'audio/mpeg', // The content type of the file to be uploaded
+        };
+    
+        const url = await s3.getSignedUrlPromise('putObject', params)
+
+        const putResponse = await axios.put(url, buffer, {
+            headers: {
+                'Content-Type': 'audio/mpeg',
+            }
+        });
+
+        if (putResponse.status !== 200) {
+            console.log("Failed to upload audio to S3");
+            return NextResponse.json({ Message: "Failed to upload audio", status: 500 });
         }
+    
+        // try {
+        //     await writeFile(
+        //       path.join(process.cwd(), "public/sounds/" + filename),
+        //       buffer
+        //     );
+        // } catch (error) {
+        //     console.log("Error occured ", error);
+        //     return NextResponse.json({ Message: "Failed", status: 500 });
+        // }
+
+          // Write the image file to storage
+        // try {
+        //     await writeFile(
+        //         path.join(process.cwd(), `public/uploads/images/${filename}.png`),
+        //         buffer
+        //     )
+        // } catch (error) {
+        //     return NextResponse.json({ Message: "Failed", status: 500 });
+        // }
 
 
     const reponse = await axios.post("https://streamlabs.com/api/v2.0/alerts", {
         "type": "donation",
         "image_href": "",
-        "sound_href": `https://www.blurt.gg/sounds/${filename}`,
+        "sound_href": `https://blios-data-collection.s3.amazonaws.com/sounds/${filename}`,
         "message": tipDescription.message,
         "user_message": `${tipDescription.name} donated ${tipDescription.amount} ${ displayStringForTokenString(tipDescription.token) }`,
         "duration": "8000",
